@@ -11,50 +11,33 @@ project(':fermat-dap-api').projectDir = new File('DAP/library/api/fermat-dap-api
 include ':fermat-dap-core'
 project(':fermat-dap-core').projectDir = new File('DAP/library/core/fermat-dap-core')
 
-//asset wallet
-include ':fermat-dap-plugin-wallet-assets-issuer-wallet'
-project(':fermat-dap-plugin-wallet-assets-issuer-wallet').projectDir = new File('DAP/plugin/wallet/fermat-dap-plugin-wallet-assets-issuer-wallet')
+// actor
+include ':fermat-dap-plugin-actor-asset-issuer'
+project(':fermat-dap-plugin-actor-asset-issuer').projectDir = new File('DAP/plugin/actor/fermat-dap-plugin-actor-asset-issuer')
 
-include ':fermat-dap-plugin-wallet-assets-user-wallet'
-project(':fermat-dap-plugin-wallet-assets-user-wallet').projectDir = new File('DAP/plugin/wallet/fermat-dap-plugin-wallet-assets-user-wallet')
+include ':fermat-dap-plugin-actor-asset-user'
+project(':fermat-dap-plugin-actor-asset-user').projectDir = new File('DAP/plugin/actor/fermat-dap-plugin-actor-asset-user')
 
-include ':fermat-dap-plugin-wallet-redeem-point-wallet'
-project(':fermat-dap-plugin-wallet-redeem-point-wallet').projectDir = new File('DAP/plugin/wallet/fermat-dap-plugin-wallet-redeem-point-wallet')
+include ':fermat-dap-plugin-actor-redeem-point'
+project(':fermat-dap-plugin-actor-redeem-point').projectDir = new File('DAP/plugin/actor/fermat-dap-plugin-actor-redeem-point')
 
-//wallet module
-include ':fermat-dap-plugin-wallet-module-asset-issuer'
-project(':fermat-dap-plugin-wallet-module-asset-issuer').projectDir = new File('DAP/plugin/wallet_module/fermat-dap-plugin-wallet-module-asset-issuer')
+// actor network service
+include ':fermat-dap-plugin-actor-network-service-asset-user'
+project(':fermat-dap-plugin-actor-network-service-asset-user').projectDir = new File('DAP/plugin/actor_network_service/fermat-dap-plugin-actor-network-service-asset-user')
 
-include ':fermat-dap-plugin-wallet-module-asset-user'
-project(':fermat-dap-plugin-wallet-module-asset-user').projectDir = new File('DAP/plugin/wallet_module/fermat-dap-plugin-wallet-module-asset-user')
+include ':fermat-dap-plugin-actor-network-service-redeem-point'
+project(':fermat-dap-plugin-actor-network-service-redeem-point').projectDir = new File('DAP/plugin/actor_network_service/fermat-dap-plugin-actor-network-service-redeem-point')
 
-include ':fermat-dap-plugin-wallet-module-redeem-point'
-project(':fermat-dap-plugin-wallet-module-redeem-point').projectDir = new File('DAP/plugin/wallet_module/fermat-dap-plugin-wallet-module-redeem-point')
+include ':fermat-dap-plugin-actor-network-service-redeem-point'
+project(':fermat-dap-plugin-actor-network-service-redeem-point').projectDir = new File('DAP/plugin/actor_network_service/fermat-dap-plugin-actor-network-service-redeem-point')
 
-//Sup app module
-include ':fermat-dap-plugin-sub-app-module-asset-factory'
-project(':fermat-dap-plugin-sub-app-module-asset-factory').projectDir = new File('DAP/plugin/sub_app_module/fermat-dap-plugin-sub-app-module-asset-factory')
+include ':fermat-dap-plugin-actor-network-service-asset-issuer'
+project(':fermat-dap-plugin-actor-network-service-asset-issuer').projectDir = new File('DAP/plugin/actor_network_service/fermat-dap-plugin-actor-network-service-asset-issuer')
 
-include ':fermat-dap-plugin-sub-app-module-asset-issuer-community'
-project(':fermat-dap-plugin-sub-app-module-asset-issuer-community').projectDir = new File('DAP/plugin/sub_app_module/fermat-dap-plugin-sub-app-module-asset-issuer-community')
+//Crypto Transaction
+include ':fermat-dap-plugin-crypto-transaction-asset-incoming'
+project(':fermat-dap-plugin-crypto-transaction-asset-incoming').projectDir = new File('DAP/plugin/crypto_transaction/fermat-dap-plugin-crypto-transaction-asset-incoming')
 
-include ':fermat-dap-plugin-sub-app-module-asset-user-community'
-project(':fermat-dap-plugin-sub-app-module-asset-user-community').projectDir = new File('DAP/plugin/sub_app_module/fermat-dap-plugin-sub-app-module-asset-user-community')
-
-include ':fermat-dap-plugin-sub-app-module-redeem-point-community'
-project(':fermat-dap-plugin-sub-app-module-redeem-point-community').projectDir = new File('DAP/plugin/sub_app_module/fermat-dap-plugin-sub-app-module-redeem-point-community')
-
-//metadata
-include ':fermat-dap-plugin-metadata-digital-asset'
-project(':fermat-dap-plugin-metadata-digital-asset').projectDir = new File('DAP/plugin/metadata/fermat-dap-plugin-metadata-digital-asset')
-
-//offer
-include ':fermat-dap-plugin-offer-asset-specific'
-project(':fermat-dap-plugin-offer-asset-specific').projectDir = new File('DAP/plugin/offer/fermat-dap-plugin-offer-asset-specific')
-
-// middleware
-include ':fermat-dap-plugin-middleware-asset-factory'
-project(':fermat-dap-plugin-middleware-asset-factory').projectDir = new File('DAP/plugin/middleware/fermat-dap-plugin-middleware-asset-factory')
 
 // digital asset transaction
 include ':fermat-dap-plugin-digital-asset-transaction-asset-issuing'
@@ -68,12 +51,6 @@ project(':fermat-dap-plugin-digital-asset-transaction-asset-transfer').projectDi
 
 include ':fermat-dap-plugin-digital-asset-transaction-asset-reception'
 project(':fermat-dap-plugin-digital-asset-transaction-asset-reception').projectDir = new File('DAP/plugin/digital_asset_transaction/fermat-dap-plugin-digital-asset-transaction-asset-reception')
-
-include ':fermat-dap-plugin-funds-transaction-asset-seller'
-project(':fermat-dap-plugin-funds-transaction-asset-seller').projectDir = new File('DAP/plugin/funds_transaction/fermat-dap-plugin-funds-transaction-asset-seller')
-
-include ':fermat-dap-plugin-funds-transaction-asset-buyer'
-project(':fermat-dap-plugin-funds-transaction-asset-buyer').projectDir = new File('DAP/plugin/funds_transaction/fermat-dap-plugin-funds-transaction-asset-buyer')
 
 include ':fermat-dap-plugin-digital-asset-transaction-issuer-redemption'
 project(':fermat-dap-plugin-digital-asset-transaction-issuer-redemption').projectDir = new File('DAP/plugin/digital_asset_transaction/fermat-dap-plugin-digital-asset-transaction-issuer-redemption')
@@ -90,22 +67,13 @@ project(':fermat-dap-plugin-digital-asset-transaction-asset-appropriation').proj
 include ':fermat-dap-plugin-digital-asset-transaction-issuer-appropriation'
 project(':fermat-dap-plugin-digital-asset-transaction-issuer-appropriation').projectDir = new File('DAP/plugin/digital_asset_transaction/fermat-dap-plugin-digital-asset-transaction-issuer-appropriation')
 
-// network-service
-include ':fermat-dap-plugin-network-service-asset-transmission'
-project(':fermat-dap-plugin-network-service-asset-transmission').projectDir = new File('DAP/plugin/network_service/fermat-dap-plugin-network-service-asset-transmission')
+//funds transactions
 
-// actor
-include ':fermat-dap-plugin-actor-asset-issuer'
-project(':fermat-dap-plugin-actor-asset-issuer').projectDir = new File('DAP/plugin/actor/fermat-dap-plugin-actor-asset-issuer')
+include ':fermat-dap-plugin-funds-transaction-asset-seller'
+project(':fermat-dap-plugin-funds-transaction-asset-seller').projectDir = new File('DAP/plugin/funds_transaction/fermat-dap-plugin-funds-transaction-asset-seller')
 
-include ':fermat-dap-plugin-actor-asset-user'
-project(':fermat-dap-plugin-actor-asset-user').projectDir = new File('DAP/plugin/actor/fermat-dap-plugin-actor-asset-user')
-
-include ':fermat-dap-plugin-actor-redeem-point'
-project(':fermat-dap-plugin-actor-redeem-point').projectDir = new File('DAP/plugin/actor/fermat-dap-plugin-actor-redeem-point')
-
-
-
+include ':fermat-dap-plugin-funds-transaction-asset-buyer'
+project(':fermat-dap-plugin-funds-transaction-asset-buyer').projectDir = new File('DAP/plugin/funds_transaction/fermat-dap-plugin-funds-transaction-asset-buyer')
 
 // identity
 include ':fermat-dap-plugin-identity-asset-issuer'
@@ -117,29 +85,51 @@ project(':fermat-dap-plugin-identity-asset-user').projectDir = new File('DAP/plu
 include ':fermat-dap-plugin-identity-redeem-point'
 project(':fermat-dap-plugin-identity-redeem-point').projectDir = new File('DAP/plugin/identity/fermat-dap-plugin-identity-redeem-point')
 
+//metadata
+include ':fermat-dap-plugin-metadata-digital-asset'
+project(':fermat-dap-plugin-metadata-digital-asset').projectDir = new File('DAP/plugin/metadata/fermat-dap-plugin-metadata-digital-asset')
 
+// middleware
+include ':fermat-dap-plugin-middleware-asset-factory'
+project(':fermat-dap-plugin-middleware-asset-factory').projectDir = new File('DAP/plugin/middleware/fermat-dap-plugin-middleware-asset-factory')
+
+// network-service
+include ':fermat-dap-plugin-network-service-asset-transmission'
+project(':fermat-dap-plugin-network-service-asset-transmission').projectDir = new File('DAP/plugin/network_service/fermat-dap-plugin-network-service-asset-transmission')
+
+//offer
+include ':fermat-dap-plugin-offer-asset-specific'
+project(':fermat-dap-plugin-offer-asset-specific').projectDir = new File('DAP/plugin/offer/fermat-dap-plugin-offer-asset-specific')
+
+//Sup app module
+include ':fermat-dap-plugin-sub-app-module-asset-factory'
+project(':fermat-dap-plugin-sub-app-module-asset-factory').projectDir = new File('DAP/plugin/sub_app_module/fermat-dap-plugin-sub-app-module-asset-factory')
+
+include ':fermat-dap-plugin-sub-app-module-asset-issuer-community'
+project(':fermat-dap-plugin-sub-app-module-asset-issuer-community').projectDir = new File('DAP/plugin/sub_app_module/fermat-dap-plugin-sub-app-module-asset-issuer-community')
+
+include ':fermat-dap-plugin-sub-app-module-asset-user-community'
+project(':fermat-dap-plugin-sub-app-module-asset-user-community').projectDir = new File('DAP/plugin/sub_app_module/fermat-dap-plugin-sub-app-module-asset-user-community')
+
+include ':fermat-dap-plugin-sub-app-module-redeem-point-community'
+project(':fermat-dap-plugin-sub-app-module-redeem-point-community').projectDir = new File('DAP/plugin/sub_app_module/fermat-dap-plugin-sub-app-module-redeem-point-community')
+
+//wallet module
+include ':fermat-dap-plugin-wallet-module-asset-issuer'
+project(':fermat-dap-plugin-wallet-module-asset-issuer').projectDir = new File('DAP/plugin/wallet_module/fermat-dap-plugin-wallet-module-asset-issuer')
+
+include ':fermat-dap-plugin-wallet-module-asset-user'
+project(':fermat-dap-plugin-wallet-module-asset-user').projectDir = new File('DAP/plugin/wallet_module/fermat-dap-plugin-wallet-module-asset-user')
+
+include ':fermat-dap-plugin-wallet-module-redeem-point'
+project(':fermat-dap-plugin-wallet-module-redeem-point').projectDir = new File('DAP/plugin/wallet_module/fermat-dap-plugin-wallet-module-redeem-point')
+
+//ANDROID----------------
 include ':fermat-dap-android-desktop-wallet-manager'
 project(':fermat-dap-android-desktop-wallet-manager').projectDir = new File('DAP/android/desktop/fermat-dap-android-desktop-wallet-manager')
 
 include ':fermat-dap-android-desktop-sub-app-manager'
 project(':fermat-dap-android-desktop-sub-app-manager').projectDir = new File('DAP/android/desktop/fermat-dap-android-desktop-sub-app-manager')
-
-
-//module
-
-
-// actor network service
-include ':fermat-dap-plugin-actor-network-service-asset-user'
-project(':fermat-dap-plugin-actor-network-service-asset-user').projectDir = new File('DAP/plugin/actor_network_service/fermat-dap-plugin-actor-network-service-asset-user')
-
-include ':fermat-dap-plugin-actor-network-service-redeem-point'
-project(':fermat-dap-plugin-actor-network-service-redeem-point').projectDir = new File('DAP/plugin/actor_network_service/fermat-dap-plugin-actor-network-service-redeem-point')
-
-include ':fermat-dap-plugin-actor-network-service-redeem-point'
-project(':fermat-dap-plugin-actor-network-service-redeem-point').projectDir = new File('DAP/plugin/actor_network_service/fermat-dap-plugin-actor-network-service-redeem-point')
-
-include ':fermat-dap-plugin-actor-network-service-asset-issuer'
-project(':fermat-dap-plugin-actor-network-service-asset-issuer').projectDir = new File('DAP/plugin/actor_network_service/fermat-dap-plugin-actor-network-service-asset-issuer')
 
 // android dap wallets
 include ':fermat-dap-android-reference-wallet-asset-issuer'
@@ -173,3 +163,13 @@ project(':fermat-dap-android-sub-app-asset-user-identity').projectDir = new File
 
 include ':fermat-dap-android-sub-app-redeem-point-identity'
 project(':fermat-dap-android-sub-app-redeem-point-identity').projectDir = new File('DAP/android/sub_app/fermat-dap-android-sub-app-redeem-point-identity')
+
+//asset wallet
+include ':fermat-dap-plugin-wallet-assets-issuer-wallet'
+project(':fermat-dap-plugin-wallet-assets-issuer-wallet').projectDir = new File('DAP/plugin/wallet/fermat-dap-plugin-wallet-assets-issuer-wallet')
+
+include ':fermat-dap-plugin-wallet-assets-user-wallet'
+project(':fermat-dap-plugin-wallet-assets-user-wallet').projectDir = new File('DAP/plugin/wallet/fermat-dap-plugin-wallet-assets-user-wallet')
+
+include ':fermat-dap-plugin-wallet-redeem-point-wallet'
+project(':fermat-dap-plugin-wallet-redeem-point-wallet').projectDir = new File('DAP/plugin/wallet/fermat-dap-plugin-wallet-redeem-point-wallet')
