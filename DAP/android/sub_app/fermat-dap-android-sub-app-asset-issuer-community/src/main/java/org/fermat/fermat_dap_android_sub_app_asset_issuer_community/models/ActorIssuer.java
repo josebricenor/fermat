@@ -1,6 +1,7 @@
 package org.fermat.fermat_dap_android_sub_app_asset_issuer_community.models;
 
 import org.fermat.fermat_dap_api.layer.dap_actor.asset_issuer.AssetIssuerActorRecord;
+import org.fermat.fermat_dap_api.layer.dap_actor.asset_issuer.interfaces.ActorAssetIssuer;
 
 /**
  * Actor Model
@@ -8,17 +9,17 @@ import org.fermat.fermat_dap_api.layer.dap_actor.asset_issuer.AssetIssuerActorRe
 public class ActorIssuer {
 
     public boolean selected;
-    private AssetIssuerActorRecord record;
+    private ActorAssetIssuer record;
 
     public ActorIssuer() {
         super();
     }
 
-    public ActorIssuer(AssetIssuerActorRecord record) {
+    public ActorIssuer(ActorAssetIssuer record) {
         this.record = record;
     }
 
-    public AssetIssuerActorRecord getRecord() {
+    public ActorAssetIssuer getRecord() {
         return record;
     }
 
