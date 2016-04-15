@@ -18,6 +18,11 @@ dependencies {
     compile project(':fermat-dap-plugin-actor-asset-user')
     compile project(':fermat-dap-plugin-actor-redeem-point')
 
+    //ACTOR CONNECTION
+    compile project(':fermat-dap-plugin-actor-connection-asset-issuer')
+    compile project(':fermat-dap-plugin-actor-connection-asset-user')
+    compile project(':fermat-dap-plugin-actor-connection-redeem-point')
+    
     //ACTOR NS
     compile project(':fermat-dap-plugin-actor-network-service-asset-issuer')
     compile project(':fermat-dap-plugin-actor-network-service-asset-user')

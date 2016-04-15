@@ -1,7 +1,6 @@
 package org.fermat.fermat_dap_plugin.layer.digital_asset_transaction.issuer_redemption.developer.version_1.structure.events;
 
 
-import org.fermat.fermat_dap_plugin.layer.digital_asset_transaction.issuer_redemption.developer.version_1.structure.database.IssuerRedemptionDao;
 import com.bitdubai.fermat_api.Agent;
 import com.bitdubai.fermat_api.CantStartAgentException;
 import com.bitdubai.fermat_api.layer.all_definition.enums.Actors;
@@ -13,21 +12,27 @@ import com.bitdubai.fermat_api.layer.all_definition.transaction_transference_pro
 import com.bitdubai.fermat_api.layer.all_definition.transaction_transference_protocol.TransactionProtocolManager;
 import com.bitdubai.fermat_api.layer.all_definition.transaction_transference_protocol.crypto_transactions.CryptoTransaction;
 import com.bitdubai.fermat_api.layer.all_definition.transaction_transference_protocol.exceptions.CantDeliverPendingTransactionsException;
+import com.bitdubai.fermat_api.layer.all_definition.util.Validate;
 import com.bitdubai.fermat_api.layer.osa_android.database_system.PluginDatabaseSystem;
 import com.bitdubai.fermat_bch_api.layer.crypto_module.crypto_address_book.interfaces.CryptoAddressBookManager;
 import com.bitdubai.fermat_bch_api.layer.crypto_module.crypto_address_book.interfaces.CryptoAddressBookRecord;
 import com.bitdubai.fermat_bch_api.layer.crypto_network.bitcoin.interfaces.BitcoinNetworkManager;
 import com.bitdubai.fermat_bch_api.layer.crypto_router.incoming_crypto.IncomingCryptoManager;
 import com.bitdubai.fermat_bch_api.layer.crypto_vault.asset_vault.interfaces.AssetVaultManager;
+import com.bitdubai.fermat_pip_api.layer.platform_service.error_manager.enums.UnexpectedPluginExceptionSeverity;
+import com.bitdubai.fermat_pip_api.layer.platform_service.error_manager.interfaces.ErrorManager;
+import com.bitdubai.fermat_wpd_api.layer.wpd_middleware.wallet_manager.exceptions.CantListWalletsException;
+import com.bitdubai.fermat_wpd_api.layer.wpd_middleware.wallet_manager.interfaces.InstalledWallet;
+import com.bitdubai.fermat_wpd_api.layer.wpd_middleware.wallet_manager.interfaces.WalletManagerManager;
+
+import org.fermat.fermat_dap_api.layer.actor_connection.asset_issuer.interfaces.AssetIssuerActorConnectionManager;
 import org.fermat.fermat_dap_api.layer.all_definition.digital_asset.DigitalAssetMetadata;
 import org.fermat.fermat_dap_api.layer.all_definition.enums.DAPMessageSubject;
-
 import org.fermat.fermat_dap_api.layer.all_definition.exceptions.DAPException;
 import org.fermat.fermat_dap_api.layer.all_definition.network_service_message.DAPMessage;
 import org.fermat.fermat_dap_api.layer.all_definition.network_service_message.content_message.AssetMovementContentMessage;
 import org.fermat.fermat_dap_api.layer.all_definition.util.ActorUtils;
 import org.fermat.fermat_dap_api.layer.all_definition.util.DAPStandardFormats;
-import com.bitdubai.fermat_api.layer.all_definition.util.Validate;
 import org.fermat.fermat_dap_api.layer.dap_actor.asset_issuer.interfaces.ActorAssetIssuerManager;
 import org.fermat.fermat_dap_api.layer.dap_actor.asset_user.interfaces.ActorAssetUserManager;
 import org.fermat.fermat_dap_api.layer.dap_actor.redeem_point.interfaces.ActorAssetRedeemPointManager;
@@ -40,11 +45,7 @@ import org.fermat.fermat_dap_api.layer.dap_wallet.asset_issuer_wallet.interfaces
 import org.fermat.fermat_dap_api.layer.dap_wallet.common.WalletUtilities;
 import org.fermat.fermat_dap_api.layer.dap_wallet.common.enums.BalanceType;
 import org.fermat.fermat_dap_api.layer.dap_wallet.common.exceptions.CantLoadWalletException;
-import com.bitdubai.fermat_pip_api.layer.platform_service.error_manager.enums.UnexpectedPluginExceptionSeverity;
-import com.bitdubai.fermat_pip_api.layer.platform_service.error_manager.interfaces.ErrorManager;
-import com.bitdubai.fermat_wpd_api.layer.wpd_middleware.wallet_manager.exceptions.CantListWalletsException;
-import com.bitdubai.fermat_wpd_api.layer.wpd_middleware.wallet_manager.interfaces.InstalledWallet;
-import com.bitdubai.fermat_wpd_api.layer.wpd_middleware.wallet_manager.interfaces.WalletManagerManager;
+import org.fermat.fermat_dap_plugin.layer.digital_asset_transaction.issuer_redemption.developer.version_1.structure.database.IssuerRedemptionDao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +75,7 @@ public class IssuerRedemptionMonitorAgent implements Agent {
     private String btcWallet;
     private final IncomingCryptoManager incomingCryptoManager;
     private final TransactionProtocolManager<CryptoTransaction> protocolManager;
+    private final AssetIssuerActorConnectionManager issuerActorConnectionManager;
 
     public IssuerRedemptionMonitorAgent(AssetIssuerWalletManager assetIssuerWalletManager,
                                         ActorAssetIssuerManager actorAssetIssuerManager,
@@ -85,7 +87,8 @@ public class IssuerRedemptionMonitorAgent implements Agent {
                                         AssetVaultManager assetVaultManager,
                                         IssuerAppropriationManager issuerAppropriationManager,
                                         WalletManagerManager walletMiddlewareManager, AssetTransmissionNetworkServiceManager assetTransmissionManager, ActorAssetUserManager actorAssetUserManager, ActorAssetRedeemPointManager actorAssetRedeemPointManager,
-                                        IncomingCryptoManager incomingCryptoManager) throws CantSetObjectException, CantExecuteDatabaseOperationException {
+                                        IncomingCryptoManager incomingCryptoManager,
+                                        AssetIssuerActorConnectionManager issuerActorConnectionManager) throws CantSetObjectException, CantExecuteDatabaseOperationException {
         this.assetTransmissionManager = assetTransmissionManager;
         this.actorAssetUserManager = actorAssetUserManager;
         this.actorAssetRedeemPointManager = actorAssetRedeemPointManager;
@@ -108,6 +111,7 @@ public class IssuerRedemptionMonitorAgent implements Agent {
         }
         this.incomingCryptoManager = incomingCryptoManager;
         this.protocolManager = incomingCryptoManager.getTransactionManager();
+        this.issuerActorConnectionManager = issuerActorConnectionManager;
     }
 
     @Override
@@ -167,8 +171,8 @@ public class IssuerRedemptionMonitorAgent implements Agent {
         private void checkAssetMovements() throws DAPException, CantLoadWalletException {
             for (DAPMessage message : assetTransmissionManager.getUnreadDAPMessageBySubject(DAPMessageSubject.ASSET_MOVEMENT)) {
                 AssetMovementContentMessage content = (AssetMovementContentMessage) message.getMessageContent();
-                ActorUtils.storeDAPActor(content.getSystemUser(), actorAssetUserManager, actorAssetRedeemPointManager, actorAssetIssuerManager);
-                ActorUtils.storeDAPActor(content.getNewUser(), actorAssetUserManager, actorAssetRedeemPointManager, actorAssetIssuerManager);
+                ActorUtils.storeDAPActor(content.getSystemUser(), actorAssetUserManager, actorAssetRedeemPointManager, issuerActorConnectionManager);
+                ActorUtils.storeDAPActor(content.getNewUser(), actorAssetUserManager, actorAssetRedeemPointManager, issuerActorConnectionManager);
                 assetIssuerWalletManager.loadAssetIssuerWallet(WalletUtilities.WALLET_PUBLIC_KEY, content.getNetworkType()).newMovement(content.getNewUser(), content.getSystemUser(), content.getAssetPublicKey(), content.getMovementType());
                 assetTransmissionManager.confirmReception(message);
             }

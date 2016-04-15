@@ -11,7 +11,7 @@ import com.bitdubai.fermat_pip_api.layer.platform_service.event_manager.interfac
 import org.fermat.fermat_dap_api.layer.dap_transaction.common.exceptions.CantSaveEventException;
 import org.fermat.fermat_dap_api.layer.dap_transaction.common.exceptions.CantStartServiceException;
 import org.fermat.fermat_dap_api.layer.dap_transaction.common.interfaces.AssetTransactionService;
-import org.fermat.fermat_dap_plugin.layer.crypto_transaction.asset_incoming.developer.version_1.structure.database.AssetOutgoingDAO;
+import org.fermat.fermat_dap_plugin.layer.crypto_transaction.asset_outgoing.developer.version_1.structure.database.AssetOutgoingDAO;
 
 import java.util.ArrayList;
 import java.util.List;

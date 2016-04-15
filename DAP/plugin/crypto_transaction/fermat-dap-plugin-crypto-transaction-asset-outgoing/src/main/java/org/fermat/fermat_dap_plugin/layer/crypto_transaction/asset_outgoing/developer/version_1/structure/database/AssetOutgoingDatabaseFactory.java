@@ -1,4 +1,4 @@
-package org.fermat.fermat_dap_plugin.layer.crypto_transaction.asset_incoming.developer.version_1.structure.database;
+package org.fermat.fermat_dap_plugin.layer.crypto_transaction.asset_outgoing.developer.version_1.structure.database;
 
 import com.bitdubai.fermat_api.layer.osa_android.database_system.Database;
 import com.bitdubai.fermat_api.layer.osa_android.database_system.DatabaseDataType;
@@ -29,7 +29,7 @@ public final class AssetOutgoingDatabaseFactory {
     public Database createDatabase() throws CantCreateDatabaseException {
         Database database;
         try {
-            database = this.pluginDatabaseSystem.createDatabase(pluginId, AssetOutgoingDatabaseConstants.ASSET_INCOMING_DATABASE);
+            database = this.pluginDatabaseSystem.createDatabase(pluginId, AssetOutgoingDatabaseConstants.ASSET_OUTGOING_DATABASE);
         } catch (CantCreateDatabaseException cantCreateDatabaseException) {
             throw new CantCreateDatabaseException(CantCreateDatabaseException.DEFAULT_MESSAGE, cantCreateDatabaseException, "", "Exception not handled by the plugin, There is a problem and i cannot create the database.");
         }
@@ -38,32 +38,32 @@ public final class AssetOutgoingDatabaseFactory {
             DatabaseTableFactory digitalAssetMetadataTable;
             DatabaseFactory databaseFactory = database.getDatabaseFactory();
 
-            digitalAssetMetadataTable = databaseFactory.newTableFactory(pluginId, AssetOutgoingDatabaseConstants.ASSET_INCOMING_TABLE);
-            digitalAssetMetadataTable.addColumn(AssetOutgoingDatabaseConstants.ASSET_INCOMING_ID_COLUMN_NAME, DatabaseDataType.STRING, 100, Boolean.TRUE);
+            digitalAssetMetadataTable = databaseFactory.newTableFactory(pluginId, AssetOutgoingDatabaseConstants.ASSET_OUTGOING_TABLE);
+            digitalAssetMetadataTable.addColumn(AssetOutgoingDatabaseConstants.ASSET_OUTGOING_ID_COLUMN_NAME, DatabaseDataType.STRING, 100, Boolean.TRUE);
 
-            digitalAssetMetadataTable.addIndex(AssetOutgoingDatabaseConstants.ASSET_INCOMING_ID_COLUMN_NAME);
+            digitalAssetMetadataTable.addIndex(AssetOutgoingDatabaseConstants.ASSET_OUTGOING_ID_COLUMN_NAME);
             try {
                 //Create the table
                 databaseFactory.createTable(pluginId, digitalAssetMetadataTable);
             } catch (CantCreateTableException cantCreateTableException) {
-                throw new CantCreateDatabaseException(CantCreateDatabaseException.DEFAULT_MESSAGE, cantCreateTableException, "Creating " + AssetOutgoingDatabaseConstants.ASSET_INCOMING_TABLE + " table", "Exception not handled by the plugin, There is a problem and I cannot create the table.");
+                throw new CantCreateDatabaseException(CantCreateDatabaseException.DEFAULT_MESSAGE, cantCreateTableException, "Creating " + AssetOutgoingDatabaseConstants.ASSET_OUTGOING_TABLE + " table", "Exception not handled by the plugin, There is a problem and I cannot create the table.");
             }
 
-            DatabaseTableFactory eventsRecorderTable = databaseFactory.newTableFactory(pluginId, AssetOutgoingDatabaseConstants.ASSET_INCOMING_EVENTS_RECORDED_TABLE_NAME);
+            DatabaseTableFactory eventsRecorderTable = databaseFactory.newTableFactory(pluginId, AssetOutgoingDatabaseConstants.ASSET_OUTGOING_EVENTS_RECORDED_TABLE_NAME);
 
-            eventsRecorderTable.addColumn(AssetOutgoingDatabaseConstants.ASSET_INCOMING_EVENTS_RECORDED_ID_COLUMN_NAME, DatabaseDataType.STRING, 255, Boolean.TRUE);
-            eventsRecorderTable.addColumn(AssetOutgoingDatabaseConstants.ASSET_INCOMING_EVENTS_RECORDED_EVENT_COLUMN_NAME, DatabaseDataType.STRING, 10, Boolean.FALSE);
-            eventsRecorderTable.addColumn(AssetOutgoingDatabaseConstants.ASSET_INCOMING_EVENTS_RECORDED_SOURCE_COLUMN_NAME, DatabaseDataType.STRING, 10, Boolean.FALSE);
-            eventsRecorderTable.addColumn(AssetOutgoingDatabaseConstants.ASSET_INCOMING_EVENTS_RECORDED_STATUS_COLUMN_NAME, DatabaseDataType.STRING, 10, Boolean.FALSE);
-            eventsRecorderTable.addColumn(AssetOutgoingDatabaseConstants.ASSET_INCOMING_EVENTS_RECORDED_TIMESTAMP_COLUMN_NAME, DatabaseDataType.LONG_INTEGER, 100, Boolean.FALSE);
+            eventsRecorderTable.addColumn(AssetOutgoingDatabaseConstants.ASSET_OUTGOING_EVENTS_RECORDED_ID_COLUMN_NAME, DatabaseDataType.STRING, 255, Boolean.TRUE);
+            eventsRecorderTable.addColumn(AssetOutgoingDatabaseConstants.ASSET_OUTGOING_EVENTS_RECORDED_EVENT_COLUMN_NAME, DatabaseDataType.STRING, 10, Boolean.FALSE);
+            eventsRecorderTable.addColumn(AssetOutgoingDatabaseConstants.ASSET_OUTGOING_EVENTS_RECORDED_SOURCE_COLUMN_NAME, DatabaseDataType.STRING, 10, Boolean.FALSE);
+            eventsRecorderTable.addColumn(AssetOutgoingDatabaseConstants.ASSET_OUTGOING_EVENTS_RECORDED_STATUS_COLUMN_NAME, DatabaseDataType.STRING, 10, Boolean.FALSE);
+            eventsRecorderTable.addColumn(AssetOutgoingDatabaseConstants.ASSET_OUTGOING_EVENTS_RECORDED_TIMESTAMP_COLUMN_NAME, DatabaseDataType.LONG_INTEGER, 100, Boolean.FALSE);
 
-            eventsRecorderTable.addIndex(AssetOutgoingDatabaseConstants.ASSET_INCOMING_EVENTS_RECORDED_TABLE_FIRST_KEY_COLUMN);
+            eventsRecorderTable.addIndex(AssetOutgoingDatabaseConstants.ASSET_OUTGOING_EVENTS_RECORDED_TABLE_FIRST_KEY_COLUMN);
 
             try {
                 //Create the table
                 databaseFactory.createTable(pluginId, eventsRecorderTable);
             } catch (CantCreateTableException cantCreateTableException) {
-                throw new CantCreateDatabaseException(CantCreateDatabaseException.DEFAULT_MESSAGE, cantCreateTableException, "Creating " + AssetOutgoingDatabaseConstants.ASSET_INCOMING_EVENTS_RECORDED_TABLE_NAME + " table", "Exception not handled by the plugin, There is a problem and I cannot create the table.");
+                throw new CantCreateDatabaseException(CantCreateDatabaseException.DEFAULT_MESSAGE, cantCreateTableException, "Creating " + AssetOutgoingDatabaseConstants.ASSET_OUTGOING_EVENTS_RECORDED_TABLE_NAME + " table", "Exception not handled by the plugin, There is a problem and I cannot create the table.");
             }
         } catch (InvalidOwnerIdException invalidOwnerId) {
             /**
@@ -78,7 +78,7 @@ public final class AssetOutgoingDatabaseFactory {
 
     public boolean databaseExists() {
         try {
-            pluginDatabaseSystem.openDatabase(pluginId, AssetOutgoingDatabaseConstants.ASSET_INCOMING_DATABASE);
+            pluginDatabaseSystem.openDatabase(pluginId, AssetOutgoingDatabaseConstants.ASSET_OUTGOING_DATABASE);
             return true;
         } catch (CantOpenDatabaseException | DatabaseNotFoundException e) {
             return false;

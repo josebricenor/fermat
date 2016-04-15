@@ -21,6 +21,17 @@ project(':fermat-dap-plugin-actor-asset-user').projectDir = new File('DAP/plugin
 include ':fermat-dap-plugin-actor-redeem-point'
 project(':fermat-dap-plugin-actor-redeem-point').projectDir = new File('DAP/plugin/actor/fermat-dap-plugin-actor-redeem-point')
 
+// ACTOR CONNECTION
+include ':fermat-dap-plugin-actor-connection-asset-issuer'
+project(':fermat-dap-plugin-actor-connection-asset-issuer').projectDir = new File('DAP/plugin/actor_connection/fermat-dap-plugin-actor-connection-asset-issuer')
+
+include ':fermat-dap-plugin-actor-connection-asset-user'
+project(':fermat-dap-plugin-actor-connection-asset-user').projectDir = new File('DAP/plugin/actor_connection/fermat-dap-plugin-actor-connection-asset-user')
+
+include ':fermat-dap-plugin-actor-connection-redeem-point'
+project(':fermat-dap-plugin-actor-connection-redeem-point').projectDir = new File('DAP/plugin/actor_connection/fermat-dap-plugin-actor-connection-redeem-point')
+
+
 // actor network service
 include ':fermat-dap-plugin-actor-network-service-asset-user'
 project(':fermat-dap-plugin-actor-network-service-asset-user').projectDir = new File('DAP/plugin/actor_network_service/fermat-dap-plugin-actor-network-service-asset-user')

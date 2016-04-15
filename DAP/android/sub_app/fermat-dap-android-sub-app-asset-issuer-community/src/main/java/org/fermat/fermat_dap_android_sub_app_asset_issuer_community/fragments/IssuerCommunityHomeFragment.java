@@ -32,6 +32,9 @@ import com.bitdubai.fermat_api.layer.all_definition.navigation_structure.enums.A
 import com.bitdubai.fermat_api.layer.all_definition.settings.exceptions.CantPersistSettingsException;
 import com.bitdubai.fermat_api.layer.all_definition.settings.structure.SettingsManager;
 import com.bitdubai.fermat_dap_android_sub_app_asset_issuer_community_bitdubai.R;
+import com.bitdubai.fermat_pip_api.layer.platform_service.error_manager.enums.UnexpectedUIExceptionSeverity;
+import com.bitdubai.fermat_pip_api.layer.platform_service.error_manager.interfaces.ErrorManager;
+
 import org.fermat.fermat_dap_android_sub_app_asset_issuer_community.adapters.IssuerCommunityAdapter;
 import org.fermat.fermat_dap_android_sub_app_asset_issuer_community.interfaces.AdapterChangeListener;
 import org.fermat.fermat_dap_android_sub_app_asset_issuer_community.models.ActorIssuer;
@@ -42,12 +45,9 @@ import org.fermat.fermat_dap_android_sub_app_asset_issuer_community.sessions.Ses
 import org.fermat.fermat_dap_api.layer.all_definition.DAPConstants;
 import org.fermat.fermat_dap_api.layer.all_definition.enums.DAPConnectionState;
 import org.fermat.fermat_dap_api.layer.all_definition.exceptions.CantGetIdentityAssetIssuerException;
-import org.fermat.fermat_dap_api.layer.dap_actor.asset_issuer.AssetIssuerActorRecord;
 import org.fermat.fermat_dap_api.layer.dap_actor.asset_issuer.interfaces.ActorAssetIssuer;
 import org.fermat.fermat_dap_api.layer.dap_module.wallet_asset_issuer.AssetIssuerSettings;
 import org.fermat.fermat_dap_api.layer.dap_sub_app_module.asset_issuer_community.interfaces.AssetIssuerCommunitySubAppModuleManager;
-import com.bitdubai.fermat_pip_api.layer.platform_service.error_manager.enums.UnexpectedUIExceptionSeverity;
-import com.bitdubai.fermat_pip_api.layer.platform_service.error_manager.interfaces.ErrorManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -683,12 +683,12 @@ public class IssuerCommunityHomeFragment extends AbstractFermatFragment implemen
 
     private synchronized List<ActorIssuer> getMoreData() throws Exception {
         List<ActorIssuer> dataSet = new ArrayList<>();
-        List<AssetIssuerActorRecord> result = null;
+        List<ActorAssetIssuer> result = null;
         if (manager == null)
             throw new NullPointerException("AssetIssuerCommunitySubAppModuleManager is null");
         result = manager.getAllActorAssetIssuerRegistered();
         if (result != null && result.size() > 0) {
-            for (AssetIssuerActorRecord record : result) {
+            for (ActorAssetIssuer record : result) {
                 dataSet.add((new ActorIssuer(record)));
             }
         }

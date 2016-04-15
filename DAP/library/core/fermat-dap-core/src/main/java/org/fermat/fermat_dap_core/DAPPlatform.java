@@ -7,7 +7,9 @@ import com.bitdubai.fermat_core_api.layer.all_definition.system.exceptions.CantR
 import com.bitdubai.fermat_core_api.layer.all_definition.system.exceptions.CantStartPlatformException;
 
 import org.fermat.fermat_dap_core.layer.actor.ActorLayer;
+import org.fermat.fermat_dap_core.layer.actor_connection.ActorConnectionLayer;
 import org.fermat.fermat_dap_core.layer.actor_network_service.ActorNetworkServiceLayer;
+import org.fermat.fermat_dap_core.layer.agent.AgentLayer;
 import org.fermat.fermat_dap_core.layer.business_transaction.BusinessTransactionLayer;
 import org.fermat.fermat_dap_core.layer.crypto_transaction.CryptoTransactionLayer;
 import org.fermat.fermat_dap_core.layer.digital_asset_transaction.DigitalAssetTransactionLayer;
@@ -45,7 +47,9 @@ public final class DAPPlatform extends AbstractPlatform {
         try {
 
             registerLayer(new ActorLayer());
+            registerLayer(new ActorConnectionLayer());
             registerLayer(new ActorNetworkServiceLayer());
+            registerLayer(new AgentLayer());
             registerLayer(new BusinessTransactionLayer());
             registerLayer(new CryptoTransactionLayer());
             registerLayer(new DigitalAssetTransactionLayer());
