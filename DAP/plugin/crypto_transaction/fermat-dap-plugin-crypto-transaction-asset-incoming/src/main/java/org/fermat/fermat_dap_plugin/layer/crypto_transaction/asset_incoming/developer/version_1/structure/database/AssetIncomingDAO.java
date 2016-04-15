@@ -61,7 +61,7 @@ public class AssetIncomingDAO {
 
     private Database openDatabase(PluginDatabaseSystem pluginDatabaseSystem, UUID pluginId) throws CantExecuteDatabaseOperationException {
         try {
-            return pluginDatabaseSystem.openDatabase(pluginId, AssetIncomingDatabaseConstants.ASSET_INCOMING_TABLE);
+            return pluginDatabaseSystem.openDatabase(pluginId, AssetIncomingDatabaseConstants.ASSET_INCOMING_DATABASE);
         } catch (CantOpenDatabaseException | DatabaseNotFoundException exception) {
             throw new CantExecuteDatabaseOperationException(exception, "Opening the Asset Reception Transaction Database", "Error in database plugin.");
         }

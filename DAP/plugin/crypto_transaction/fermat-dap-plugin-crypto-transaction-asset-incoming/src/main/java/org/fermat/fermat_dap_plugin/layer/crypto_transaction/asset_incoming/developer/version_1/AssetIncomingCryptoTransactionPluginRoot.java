@@ -38,7 +38,7 @@ import java.util.List;
 /**
  * Created by Víctor A. Mars M. (marsvicam@gmail.com) on 9/02/16.
  */
-public class AssetIncomingPluginRoot extends AbstractPlugin implements
+public class AssetIncomingCryptoTransactionPluginRoot extends AbstractPlugin implements
         DatabaseManagerForDevelopers {
 
 
@@ -57,7 +57,7 @@ public class AssetIncomingPluginRoot extends AbstractPlugin implements
     private AssetIncomingRecorderService recorderService;
 
     //CONSTRUCTORS
-    public AssetIncomingPluginRoot() {
+    public AssetIncomingCryptoTransactionPluginRoot() {
         super(new PluginVersionReference(new Version()));
     }
 
