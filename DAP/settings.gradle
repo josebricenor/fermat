@@ -38,6 +38,9 @@ project(':fermat-dap-plugin-actor-network-service-asset-issuer').projectDir = ne
 include ':fermat-dap-plugin-crypto-transaction-asset-incoming'
 project(':fermat-dap-plugin-crypto-transaction-asset-incoming').projectDir = new File('DAP/plugin/crypto_transaction/fermat-dap-plugin-crypto-transaction-asset-incoming')
 
+include ':fermat-dap-plugin-crypto-transaction-asset-outgoing'
+project(':fermat-dap-plugin-crypto-transaction-asset-outgoing').projectDir = new File('DAP/plugin/crypto_transaction/fermat-dap-plugin-crypto-transaction-asset-outgoing')
+
 
 // digital asset transaction
 include ':fermat-dap-plugin-digital-asset-transaction-asset-issuing'

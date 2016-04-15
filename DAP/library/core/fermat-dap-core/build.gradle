@@ -25,6 +25,7 @@ dependencies {
 
     //CRYPTO TRANSACTION
     compile project(':fermat-dap-plugin-crypto-transaction-asset-incoming')
+    compile project(':fermat-dap-plugin-crypto-transaction-asset-outgoing')
 
     //DIGITAL ASSET TRANSACTION
     compile project(':fermat-dap-plugin-digital-asset-transaction-asset-appropriation')
