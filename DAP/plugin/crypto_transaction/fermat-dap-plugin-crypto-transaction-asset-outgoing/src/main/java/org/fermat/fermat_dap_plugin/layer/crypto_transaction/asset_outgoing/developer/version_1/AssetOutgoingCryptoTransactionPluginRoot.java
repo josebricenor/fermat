@@ -25,10 +25,10 @@ import com.bitdubai.fermat_pip_api.layer.platform_service.error_manager.interfac
 import com.bitdubai.fermat_pip_api.layer.platform_service.event_manager.interfaces.EventManager;
 
 import org.fermat.fermat_dap_api.layer.dap_transaction.common.exceptions.CantDeliverDatabaseException;
-import org.fermat.fermat_dap_plugin.layer.crypto_transaction.asset_incoming.developer.version_1.developer_utils.AssetOutgoingDeveloperDatabaseFactory;
-import org.fermat.fermat_dap_plugin.layer.crypto_transaction.asset_incoming.developer.version_1.structure.database.AssetOutgoingDAO;
-import org.fermat.fermat_dap_plugin.layer.crypto_transaction.asset_incoming.developer.version_1.structure.database.AssetOutgoingDatabaseConstants;
-import org.fermat.fermat_dap_plugin.layer.crypto_transaction.asset_incoming.developer.version_1.structure.database.AssetOutgoingDatabaseFactory;
+import org.fermat.fermat_dap_plugin.layer.crypto_transaction.asset_outgoing.developer.version_1.developer_utils.AssetOutgoingDeveloperDatabaseFactory;
+import org.fermat.fermat_dap_plugin.layer.crypto_transaction.asset_outgoing.developer.version_1.structure.database.AssetOutgoingDAO;
+import org.fermat.fermat_dap_plugin.layer.crypto_transaction.asset_outgoing.developer.version_1.structure.database.AssetOutgoingDatabaseConstants;
+import org.fermat.fermat_dap_plugin.layer.crypto_transaction.asset_outgoing.developer.version_1.structure.database.AssetOutgoingDatabaseFactory;
 import org.fermat.fermat_dap_plugin.layer.crypto_transaction.asset_outgoing.developer.version_1.structure.events.AssetOutgoingMonitorAgent;
 import org.fermat.fermat_dap_plugin.layer.crypto_transaction.asset_outgoing.developer.version_1.structure.events.AssetOutgoingRecorderService;
 
@@ -38,7 +38,7 @@ import java.util.List;
 /**
  * Created by Víctor A. Mars M. (marsvicam@gmail.com) on 9/02/16.
  */
-public class AssetOutgoingPluginRoot extends AbstractPlugin implements
+public class AssetOutgoingCryptoTransactionPluginRoot extends AbstractPlugin implements
         DatabaseManagerForDevelopers {
 
 
@@ -57,7 +57,7 @@ public class AssetOutgoingPluginRoot extends AbstractPlugin implements
     private AssetOutgoingRecorderService recorderService;
 
     //CONSTRUCTORS
-    public AssetOutgoingPluginRoot() {
+    public AssetOutgoingCryptoTransactionPluginRoot() {
         super(new PluginVersionReference(new Version()));
     }
 
@@ -104,7 +104,7 @@ public class AssetOutgoingPluginRoot extends AbstractPlugin implements
     public List<DeveloperDatabaseTableRecord> getDatabaseTableContent(DeveloperObjectFactory developerObjectFactory, DeveloperDatabase developerDatabase, DeveloperDatabaseTable developerDatabaseTable) {
         Database database;
         try {
-            database = this.pluginDatabaseSystem.openDatabase(pluginId, AssetOutgoingDatabaseConstants.ASSET_INCOMING_DATABASE);
+            database = this.pluginDatabaseSystem.openDatabase(pluginId, AssetOutgoingDatabaseConstants.ASSET_OUTGOING_DATABASE);
             return AssetOutgoingDeveloperDatabaseFactory.getDatabaseTableContent(developerObjectFactory, database, developerDatabaseTable);
         } catch (CantOpenDatabaseException cantOpenDatabaseException) {
             /**

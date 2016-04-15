@@ -9,7 +9,7 @@ import com.bitdubai.fermat_api.layer.all_definition.enums.Developers;
 import com.bitdubai.fermat_api.layer.all_definition.enums.TimeFrequency;
 import com.bitdubai.fermat_api.layer.all_definition.license.PluginLicensor;
 
-import org.fermat.fermat_dap_plugin.layer.crypto_transaction.asset_outgoing.developer.version_1.AssetOutgoingPluginRoot;
+import org.fermat.fermat_dap_plugin.layer.crypto_transaction.asset_outgoing.developer.version_1.AssetOutgoingCryptoTransactionPluginRoot;
 
 
 /**
@@ -29,7 +29,7 @@ public class DeveloperBitDubai extends AbstractPluginDeveloper implements Plugin
     public void start() throws CantStartPluginDeveloperException {
         try {
 
-            this.registerVersion(new AssetOutgoingPluginRoot());
+            this.registerVersion(new AssetOutgoingCryptoTransactionPluginRoot());
 
         } catch (CantRegisterVersionException e) {
 

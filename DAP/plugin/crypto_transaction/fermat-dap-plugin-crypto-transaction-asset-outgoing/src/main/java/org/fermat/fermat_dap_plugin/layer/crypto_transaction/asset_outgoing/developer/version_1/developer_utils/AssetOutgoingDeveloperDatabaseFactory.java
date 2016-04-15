@@ -1,4 +1,4 @@
-package org.fermat.fermat_dap_plugin.layer.crypto_transaction.asset_incoming.developer.version_1.developer_utils;
+package org.fermat.fermat_dap_plugin.layer.crypto_transaction.asset_outgoing.developer.version_1.developer_utils;
 
 import com.bitdubai.fermat_api.layer.all_definition.developer.DeveloperDatabase;
 import com.bitdubai.fermat_api.layer.all_definition.developer.DeveloperDatabaseTable;
@@ -16,8 +16,8 @@ import com.bitdubai.fermat_api.layer.osa_android.database_system.exceptions.Cant
 import com.bitdubai.fermat_api.layer.osa_android.database_system.exceptions.DatabaseNotFoundException;
 
 import org.fermat.fermat_dap_api.layer.dap_transaction.asset_redemption.exceptions.CantInitializeAssetRedeemPointRedemptionTransactionDatabaseException;
-import org.fermat.fermat_dap_plugin.layer.crypto_transaction.asset_incoming.developer.version_1.structure.database.AssetOutgoingDatabaseConstants;
-import org.fermat.fermat_dap_plugin.layer.crypto_transaction.asset_incoming.developer.version_1.structure.database.AssetOutgoingDatabaseFactory;
+import org.fermat.fermat_dap_plugin.layer.crypto_transaction.asset_outgoing.developer.version_1.structure.database.AssetOutgoingDatabaseConstants;
+import org.fermat.fermat_dap_plugin.layer.crypto_transaction.asset_outgoing.developer.version_1.structure.database.AssetOutgoingDatabaseFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,7 +51,7 @@ public class AssetOutgoingDeveloperDatabaseFactory {
              /*
               * Open new database connection
               */
-            pluginDatabaseSystem.openDatabase(pluginId, AssetOutgoingDatabaseConstants.ASSET_INCOMING_DATABASE);
+            pluginDatabaseSystem.openDatabase(pluginId, AssetOutgoingDatabaseConstants.ASSET_OUTGOING_DATABASE);
 
         } catch (CantOpenDatabaseException cantOpenDatabaseException) {
 
@@ -86,19 +86,19 @@ public class AssetOutgoingDeveloperDatabaseFactory {
         List<DeveloperDatabaseTable> tables = new ArrayList<>();
 
         List<String> assetIncomingColumns = new ArrayList<>();
-        assetIncomingColumns.add(AssetOutgoingDatabaseConstants.ASSET_INCOMING_ID_COLUMN_NAME);
+        assetIncomingColumns.add(AssetOutgoingDatabaseConstants.ASSET_OUTGOING_ID_COLUMN_NAME);
 
-        DeveloperDatabaseTable assetIncomingTable = developerObjectFactory.getNewDeveloperDatabaseTable(AssetOutgoingDatabaseConstants.ASSET_INCOMING_TABLE, assetIncomingColumns);
+        DeveloperDatabaseTable assetIncomingTable = developerObjectFactory.getNewDeveloperDatabaseTable(AssetOutgoingDatabaseConstants.ASSET_OUTGOING_TABLE, assetIncomingColumns);
         tables.add(assetIncomingTable);
 
         List<String> eventsRecordedColumns = new ArrayList<>();
-        eventsRecordedColumns.add(AssetOutgoingDatabaseConstants.ASSET_INCOMING_EVENTS_RECORDED_ID_COLUMN_NAME);
-        eventsRecordedColumns.add(AssetOutgoingDatabaseConstants.ASSET_INCOMING_EVENTS_RECORDED_EVENT_COLUMN_NAME);
-        eventsRecordedColumns.add(AssetOutgoingDatabaseConstants.ASSET_INCOMING_EVENTS_RECORDED_SOURCE_COLUMN_NAME);
-        eventsRecordedColumns.add(AssetOutgoingDatabaseConstants.ASSET_INCOMING_EVENTS_RECORDED_STATUS_COLUMN_NAME);
-        eventsRecordedColumns.add(AssetOutgoingDatabaseConstants.ASSET_INCOMING_EVENTS_RECORDED_TIMESTAMP_COLUMN_NAME);
+        eventsRecordedColumns.add(AssetOutgoingDatabaseConstants.ASSET_OUTGOING_EVENTS_RECORDED_ID_COLUMN_NAME);
+        eventsRecordedColumns.add(AssetOutgoingDatabaseConstants.ASSET_OUTGOING_EVENTS_RECORDED_EVENT_COLUMN_NAME);
+        eventsRecordedColumns.add(AssetOutgoingDatabaseConstants.ASSET_OUTGOING_EVENTS_RECORDED_SOURCE_COLUMN_NAME);
+        eventsRecordedColumns.add(AssetOutgoingDatabaseConstants.ASSET_OUTGOING_EVENTS_RECORDED_STATUS_COLUMN_NAME);
+        eventsRecordedColumns.add(AssetOutgoingDatabaseConstants.ASSET_OUTGOING_EVENTS_RECORDED_TIMESTAMP_COLUMN_NAME);
 
-        DeveloperDatabaseTable eventsRecordedTables = developerObjectFactory.getNewDeveloperDatabaseTable(AssetOutgoingDatabaseConstants.ASSET_INCOMING_EVENTS_RECORDED_TABLE_NAME, eventsRecordedColumns);
+        DeveloperDatabaseTable eventsRecordedTables = developerObjectFactory.getNewDeveloperDatabaseTable(AssetOutgoingDatabaseConstants.ASSET_OUTGOING_EVENTS_RECORDED_TABLE_NAME, eventsRecordedColumns);
         tables.add(eventsRecordedTables);
         return tables;
     }
@@ -108,7 +108,7 @@ public class AssetOutgoingDeveloperDatabaseFactory {
          * I only have one database on my plugin. I will return its name.
          */
         List<DeveloperDatabase> databases = new ArrayList<>();
-        databases.add(developerObjectFactory.getNewDeveloperDatabase(AssetOutgoingDatabaseConstants.ASSET_INCOMING_DATABASE, pluginId.toString()));
+        databases.add(developerObjectFactory.getNewDeveloperDatabase(AssetOutgoingDatabaseConstants.ASSET_OUTGOING_DATABASE, pluginId.toString()));
         return databases;
     }
 

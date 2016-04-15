@@ -1,4 +1,4 @@
-package org.fermat.fermat_dap_plugin.layer.crypto_transaction.asset_incoming.developer.version_1.structure.database;
+package org.fermat.fermat_dap_plugin.layer.crypto_transaction.asset_outgoing.developer.version_1.structure.database;
 
 import com.bitdubai.fermat_api.FermatException;
 import com.bitdubai.fermat_api.layer.all_definition.events.interfaces.FermatEvent;
@@ -41,15 +41,15 @@ public class AssetOutgoingDAO {
         String eventSource = event.getSource().getCode();
         String context = "Event Type : " + eventType + " - Event Source: " + eventSource;
         try {
-            DatabaseTable databaseTable = this.database.getTable(AssetOutgoingDatabaseConstants.ASSET_INCOMING_EVENTS_RECORDED_TABLE_NAME);
+            DatabaseTable databaseTable = this.database.getTable(AssetOutgoingDatabaseConstants.ASSET_OUTGOING_EVENTS_RECORDED_TABLE_NAME);
             DatabaseTableRecord eventRecord = databaseTable.getEmptyRecord();
             UUID eventRecordID = UUID.randomUUID();
 
-            eventRecord.setUUIDValue(AssetOutgoingDatabaseConstants.ASSET_INCOMING_EVENTS_RECORDED_ID_COLUMN_NAME, eventRecordID);
-            eventRecord.setStringValue(AssetOutgoingDatabaseConstants.ASSET_INCOMING_EVENTS_RECORDED_EVENT_COLUMN_NAME, eventType);
-            eventRecord.setStringValue(AssetOutgoingDatabaseConstants.ASSET_INCOMING_EVENTS_RECORDED_SOURCE_COLUMN_NAME, eventSource);
-            eventRecord.setStringValue(AssetOutgoingDatabaseConstants.ASSET_INCOMING_EVENTS_RECORDED_STATUS_COLUMN_NAME, EventStatus.PENDING.getCode());
-            eventRecord.setLongValue(AssetOutgoingDatabaseConstants.ASSET_INCOMING_EVENTS_RECORDED_TIMESTAMP_COLUMN_NAME, System.currentTimeMillis());
+            eventRecord.setUUIDValue(AssetOutgoingDatabaseConstants.ASSET_OUTGOING_EVENTS_RECORDED_ID_COLUMN_NAME, eventRecordID);
+            eventRecord.setStringValue(AssetOutgoingDatabaseConstants.ASSET_OUTGOING_EVENTS_RECORDED_EVENT_COLUMN_NAME, eventType);
+            eventRecord.setStringValue(AssetOutgoingDatabaseConstants.ASSET_OUTGOING_EVENTS_RECORDED_SOURCE_COLUMN_NAME, eventSource);
+            eventRecord.setStringValue(AssetOutgoingDatabaseConstants.ASSET_OUTGOING_EVENTS_RECORDED_STATUS_COLUMN_NAME, EventStatus.PENDING.getCode());
+            eventRecord.setLongValue(AssetOutgoingDatabaseConstants.ASSET_OUTGOING_EVENTS_RECORDED_TIMESTAMP_COLUMN_NAME, System.currentTimeMillis());
             databaseTable.insertRecord(eventRecord);
         } catch (CantInsertRecordException exception) {
             throw new CantSaveEventException(exception, context, "Cannot insert a record in Asset Appropriation Event Table");
@@ -61,14 +61,14 @@ public class AssetOutgoingDAO {
 
     private Database openDatabase(PluginDatabaseSystem pluginDatabaseSystem, UUID pluginId) throws CantExecuteDatabaseOperationException {
         try {
-            return pluginDatabaseSystem.openDatabase(pluginId, AssetOutgoingDatabaseConstants.ASSET_INCOMING_TABLE);
+            return pluginDatabaseSystem.openDatabase(pluginId, AssetOutgoingDatabaseConstants.ASSET_OUTGOING_DATABASE);
         } catch (CantOpenDatabaseException | DatabaseNotFoundException exception) {
             throw new CantExecuteDatabaseOperationException(exception, "Opening the Asset Reception Transaction Database", "Error in database plugin.");
         }
     }
 
     private DatabaseTable getAssetIncomingTable() {
-        return database.getTable(AssetOutgoingDatabaseConstants.ASSET_INCOMING_TABLE);
+        return database.getTable(AssetOutgoingDatabaseConstants.ASSET_OUTGOING_TABLE);
     }
 
     //INNER CLASSES
