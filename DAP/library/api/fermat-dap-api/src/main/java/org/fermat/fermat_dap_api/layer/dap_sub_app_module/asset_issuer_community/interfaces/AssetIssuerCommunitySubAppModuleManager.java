@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface AssetIssuerCommunitySubAppModuleManager extends ModuleManager<org.fermat.fermat_dap_api.layer.dap_module.wallet_asset_issuer.AssetIssuerSettings, ActiveActorIdentityInformation> {
 
-    List<org.fermat.fermat_dap_api.layer.dap_actor.asset_issuer.AssetIssuerActorRecord> getAllActorAssetIssuerRegistered() throws org.fermat.fermat_dap_api.layer.dap_actor.asset_issuer.exceptions.CantGetAssetIssuerActorsException;
+    List<org.fermat.fermat_dap_api.layer.dap_actor.asset_issuer.interfaces.ActorAssetIssuer> getAllActorAssetIssuerRegistered() throws org.fermat.fermat_dap_api.layer.dap_actor.asset_issuer.exceptions.CantGetAssetIssuerActorsException;
 
     List<org.fermat.fermat_dap_api.layer.dap_actor.asset_issuer.interfaces.ActorAssetIssuer> getAllActorAssetIssuerConnected() throws org.fermat.fermat_dap_api.layer.dap_actor.asset_issuer.exceptions.CantGetAssetIssuerActorsException;
 
