@@ -12,6 +12,7 @@ import com.bitdubai.fermat_api.layer.all_definition.transaction_transference_pro
 import com.bitdubai.fermat_api.layer.all_definition.transaction_transference_protocol.crypto_transactions.CryptoTransaction;
 import com.bitdubai.fermat_api.layer.all_definition.transaction_transference_protocol.exceptions.CantConfirmTransactionException;
 import com.bitdubai.fermat_api.layer.all_definition.transaction_transference_protocol.exceptions.CantDeliverPendingTransactionsException;
+import com.bitdubai.fermat_api.layer.all_definition.util.Validate;
 import com.bitdubai.fermat_api.layer.osa_android.database_system.PluginDatabaseSystem;
 import com.bitdubai.fermat_api.layer.osa_android.database_system.exceptions.CantOpenDatabaseException;
 import com.bitdubai.fermat_api.layer.osa_android.database_system.exceptions.DatabaseNotFoundException;
@@ -20,22 +21,22 @@ import com.bitdubai.fermat_api.layer.osa_android.logger_system.LogLevel;
 import com.bitdubai.fermat_api.layer.osa_android.logger_system.LogManager;
 import com.bitdubai.fermat_bch_api.layer.crypto_network.bitcoin.interfaces.BitcoinNetworkManager;
 import com.bitdubai.fermat_bch_api.layer.crypto_router.incoming_crypto.IncomingCryptoManager;
+import com.bitdubai.fermat_pip_api.layer.platform_service.error_manager.enums.UnexpectedPluginExceptionSeverity;
+import com.bitdubai.fermat_pip_api.layer.platform_service.error_manager.interfaces.ErrorManager;
+
+import org.fermat.fermat_dap_api.layer.actor_connection.asset_issuer.interfaces.AssetIssuerActorConnectionManager;
 import org.fermat.fermat_dap_api.layer.all_definition.digital_asset.DigitalAsset;
 import org.fermat.fermat_dap_api.layer.all_definition.digital_asset.DigitalAssetMetadata;
 import org.fermat.fermat_dap_api.layer.all_definition.enums.DAPMessageSubject;
 import org.fermat.fermat_dap_api.layer.all_definition.enums.DistributionStatus;
 import org.fermat.fermat_dap_api.layer.all_definition.enums.EventStatus;
-
 import org.fermat.fermat_dap_api.layer.all_definition.network_service_message.DAPMessage;
 import org.fermat.fermat_dap_api.layer.all_definition.network_service_message.content_message.AssetMetadataContentMessage;
 import org.fermat.fermat_dap_api.layer.all_definition.network_service_message.content_message.DistributionStatusUpdateContentMessage;
 import org.fermat.fermat_dap_api.layer.all_definition.network_service_message.exceptions.CantSendMessageException;
 import org.fermat.fermat_dap_api.layer.all_definition.network_service_message.exceptions.CantUpdateMessageStatusException;
 import org.fermat.fermat_dap_api.layer.all_definition.util.ActorUtils;
-import com.bitdubai.fermat_api.layer.all_definition.util.Validate;
 import org.fermat.fermat_dap_api.layer.dap_actor.DAPActor;
-import org.fermat.fermat_dap_api.layer.dap_actor.asset_issuer.exceptions.CantGetAssetIssuerActorsException;
-import org.fermat.fermat_dap_api.layer.dap_actor.asset_issuer.interfaces.ActorAssetIssuer;
 import org.fermat.fermat_dap_api.layer.dap_actor.asset_issuer.interfaces.ActorAssetIssuerManager;
 import org.fermat.fermat_dap_api.layer.dap_actor.asset_user.exceptions.CantGetAssetUserActorsException;
 import org.fermat.fermat_dap_api.layer.dap_actor.asset_user.interfaces.ActorAssetUser;
@@ -53,9 +54,6 @@ import org.fermat.fermat_dap_api.layer.dap_wallet.asset_redeem_point.interfaces.
 import org.fermat.fermat_dap_api.layer.dap_wallet.asset_redeem_point.interfaces.AssetRedeemPointWalletTransactionRecord;
 import org.fermat.fermat_dap_api.layer.dap_wallet.common.WalletUtilities;
 import org.fermat.fermat_dap_api.layer.dap_wallet.common.enums.BalanceType;
-
-import com.bitdubai.fermat_pip_api.layer.platform_service.error_manager.enums.UnexpectedPluginExceptionSeverity;
-import com.bitdubai.fermat_pip_api.layer.platform_service.error_manager.interfaces.ErrorManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,6 +86,7 @@ public class RedeemPointRedemptionMonitorAgent implements Agent {
     private final PluginFileSystem pluginFileSystem;
     private final ActorAssetRedeemPointManager actorAssetRedeemPointManager;
     private final AssetRedeemPointWalletManager assetRedeemPointWalletManager;
+    private final AssetIssuerActorConnectionManager issuerActorConnectionManager;
     private final ActorAssetUserManager actorAssetUserManager;
     private final BitcoinNetworkManager bitcoinNetworkManager;
     private final ActorAssetIssuerManager actorAssetIssuerManager;
@@ -106,7 +105,8 @@ public class RedeemPointRedemptionMonitorAgent implements Agent {
                                              ActorAssetUserManager actorAssetUserManager,
                                              BitcoinNetworkManager bitcoinNetworkManager,
                                              ActorAssetIssuerManager actorAssetIssuerManager,
-                                             IncomingCryptoManager incomingCryptoManager) throws CantSetObjectException {
+                                             IncomingCryptoManager incomingCryptoManager,
+                                             AssetIssuerActorConnectionManager issuerActorConnectionManager) throws CantSetObjectException {
         this.errorManager = Validate.verifySetter(errorManager, "errorManager is null");
         this.logManager = Validate.verifySetter(logManager, "logManager is null");
         this.assetTransmissionManager = Validate.verifySetter(assetTransmissionManager, "assetTransmissionManager is null");
@@ -120,6 +120,7 @@ public class RedeemPointRedemptionMonitorAgent implements Agent {
         this.actorAssetIssuerManager = Validate.verifySetter(actorAssetIssuerManager, "actorAssetIssuerManager is null");
         this.incomingCryptoManager = incomingCryptoManager;
         this.protocolManager = incomingCryptoManager.getTransactionManager();
+        this.issuerActorConnectionManager = issuerActorConnectionManager;
     }
 
 
@@ -213,12 +214,12 @@ public class RedeemPointRedemptionMonitorAgent implements Agent {
                                 //PERSIST METADATA
                                 debug("persisting metadata");
                                 //We store the sender of this message on its respective plugin
-                                ActorUtils.storeDAPActor(message.getActorSender(), actorAssetUserManager, actorAssetRedeemPointManager, actorAssetIssuerManager);
+                                ActorUtils.storeDAPActor(message.getActorSender(), actorAssetUserManager, actorAssetRedeemPointManager, issuerActorConnectionManager);
                                 dao.newTransaction(transactionId, message.getActorSender().getActorPublicKey(), message.getActorReceiver().getActorPublicKey(), DistributionStatus.SENDING_CRYPTO, CryptoStatus.PENDING_SUBMIT);
                                 persistDigitalAssetMetadataInLocalStorage(metadata, transactionId);
                                 //Now I should answer the metadata, so I'll send a message to the actor that sends me this metadata.
 
-                                if (!isValidIssuer(digitalAsset)) {
+                                if (!ActorUtils.isValidIssuer(digitalAsset, issuerActorConnectionManager)) {
                                     updateStatusAndSendMessage(DistributionStatus.INCORRECT_REDEEM_POINT, message);
                                     continue;
                                 }
@@ -396,19 +397,6 @@ public class RedeemPointRedemptionMonitorAgent implements Agent {
             assetTransmissionManager.sendMessage(answer);
             debug("status updated! : " + status);
             assetTransmissionManager.confirmReception(message);
-        }
-
-        private boolean isValidIssuer(DigitalAsset asset) {
-            try {
-                for (ActorAssetIssuer issuer : actorAssetIssuerManager.getAllAssetIssuerActorConnectedWithExtendedPublicKey()) {
-                    if (issuer.getActorPublicKey().equals(asset.getIdentityAssetIssuer().getPublicKey())) {
-                        return true;
-                    }
-                }
-            } catch (CantGetAssetIssuerActorsException e) {
-                return false;
-            }
-            return false;
         }
 
         private Transaction<CryptoTransaction> transactionForHash(DigitalAssetMetadata metadata) throws CantDeliverPendingTransactionsException {
