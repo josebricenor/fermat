@@ -3,11 +3,12 @@ package org.fermat.fermat_dap_api.layer.dap_actor.asset_issuer;
 import com.bitdubai.fermat_api.layer.all_definition.enums.Actors;
 import com.bitdubai.fermat_api.layer.all_definition.util.Base64;
 import com.bitdubai.fermat_api.layer.osa_android.location_system.Location;
-import org.fermat.fermat_dap_api.layer.all_definition.enums.DAPConnectionState;
-import org.fermat.fermat_dap_api.layer.dap_actor.asset_issuer.interfaces.ActorAssetIssuer;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
+import org.fermat.fermat_dap_api.layer.all_definition.enums.DAPConnectionState;
+import org.fermat.fermat_dap_api.layer.dap_actor.asset_issuer.interfaces.ActorAssetIssuer;
 
 /**
  * Created by Nerio on 22/09/15.
@@ -249,6 +250,26 @@ public class AssetIssuerActorRecord implements ActorAssetIssuer {
         return extendedPublicKey;
     }
 
+    public void setPublicLinkedIdentity(String publicLinkedIdentity) {
+        this.publicLinkedIdentity = publicLinkedIdentity;
+    }
+
+    public void setLocationLatitude(Double locationLatitude) {
+        this.locationLatitude = locationLatitude;
+    }
+
+    public void setLocationLongitude(Double locationLongitude) {
+        this.locationLongitude = locationLongitude;
+    }
+
+    public void setExtendedPublicKey(String extendedPublicKey) {
+        this.extendedPublicKey = extendedPublicKey;
+    }
+
+    public void setActorsType(Actors actorsType) {
+        this.actorsType = actorsType;
+    }
+
     public static AssetIssuerActorRecord fromJson(String jsonString) {
 
         Gson gson = new Gson();
@@ -279,6 +300,19 @@ public class AssetIssuerActorRecord implements ActorAssetIssuer {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AssetIssuerActorRecord that = (AssetIssuerActorRecord) o;
+        return !(getActorPublicKey() != null ? !getActorPublicKey().equals(that.getActorPublicKey()) : that.getActorPublicKey() != null);
+    }
+
+    @Override
+    public int hashCode() {
+        return getActorPublicKey() != null ? getActorPublicKey().hashCode() : 0;
+    }
+
+    @Override
     public String toString() {
         String profileImageIssuer = null;
         if(profileImage != null)
@@ -300,4 +334,6 @@ public class AssetIssuerActorRecord implements ActorAssetIssuer {
                 ", extendedPublicKey='"     + extendedPublicKey + '\'' +
                 '}';
     }
+
+
 }
