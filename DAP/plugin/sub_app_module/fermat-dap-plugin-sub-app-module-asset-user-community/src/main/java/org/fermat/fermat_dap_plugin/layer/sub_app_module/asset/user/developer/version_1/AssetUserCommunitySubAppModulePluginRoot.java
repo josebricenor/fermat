@@ -18,6 +18,10 @@ import com.bitdubai.fermat_api.layer.modules.common_classes.ActiveActorIdentityI
 import com.bitdubai.fermat_api.layer.modules.exceptions.ActorIdentityNotSelectedException;
 import com.bitdubai.fermat_api.layer.modules.exceptions.CantGetSelectedActorIdentityException;
 import com.bitdubai.fermat_api.layer.osa_android.file_system.PluginFileSystem;
+import com.bitdubai.fermat_pip_api.layer.platform_service.error_manager.enums.UnexpectedPluginExceptionSeverity;
+import com.bitdubai.fermat_pip_api.layer.platform_service.error_manager.interfaces.ErrorManager;
+
+import org.fermat.fermat_dap_api.layer.actor_connection.asset_issuer.interfaces.AssetIssuerActorConnectionManager;
 import org.fermat.fermat_dap_api.layer.all_definition.enums.DAPConnectionState;
 import org.fermat.fermat_dap_api.layer.all_definition.exceptions.CantGetIdentityAssetUserException;
 import org.fermat.fermat_dap_api.layer.dap_actor.DAPActor;
@@ -56,8 +60,6 @@ import org.fermat.fermat_dap_api.layer.dap_module.wallet_asset_user.AssetUserSet
 import org.fermat.fermat_dap_api.layer.dap_module.wallet_asset_user.interfaces.AssetUserWalletSubAppModuleManager;
 import org.fermat.fermat_dap_api.layer.dap_sub_app_module.asset_user_community.interfaces.AssetUserCommunitySubAppModuleManager;
 import org.fermat.fermat_dap_api.layer.dap_transaction.common.exceptions.RecordsNotFoundException;
-import com.bitdubai.fermat_pip_api.layer.platform_service.error_manager.enums.UnexpectedPluginExceptionSeverity;
-import com.bitdubai.fermat_pip_api.layer.platform_service.error_manager.interfaces.ErrorManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,6 +92,9 @@ public class AssetUserCommunitySubAppModulePluginRoot extends AbstractPlugin imp
 
     @NeededPluginReference(platform = Platforms.DIGITAL_ASSET_PLATFORM, layer = Layers.ACTOR, plugin = Plugins.ASSET_USER)
     ActorAssetUserManager actorAssetUserManager;
+
+    @NeededPluginReference(platform = Platforms.DIGITAL_ASSET_PLATFORM, layer = Layers.ACTOR_CONNECTION, plugin = Plugins.ASSET_ISSUER)
+    AssetIssuerActorConnectionManager issuerActorConnectionManager;
 
     @NeededPluginReference(platform = Platforms.DIGITAL_ASSET_PLATFORM, layer = Layers.WALLET_MODULE, plugin = Plugins.ASSET_ISSUER)
     AssetIssuerWalletSupAppModuleManager assetIssuerWalletSupAppModuleManager;
@@ -423,7 +428,7 @@ public class AssetUserCommunitySubAppModulePluginRoot extends AbstractPlugin imp
         try {
 
             if (actorAssetToAdd.getType().getCode().equals(Actors.DAP_ASSET_ISSUER.getCode())) {
-                this.actorAssetIssuerManager.acceptActorAssetIssuer(actorAssetUserInPublicKey, actorAssetToAdd.getActorPublicKey());
+                issuerActorConnectionManager.acceptConnection(actorAssetToAdd.getActorPublicKey());
             } else {
                 if (actorAssetToAdd.getType().getCode().equals(Actors.DAP_ASSET_USER.getCode())) {
                     this.actorAssetUserManager.acceptActorAssetUser(actorAssetUserInPublicKey, actorAssetToAdd.getActorPublicKey());
@@ -444,10 +449,10 @@ public class AssetUserCommunitySubAppModulePluginRoot extends AbstractPlugin imp
     public void denyConnectionActorAssetUser(String actorAssetUserLoggedInPublicKey, ActorAssetUser actorAssetToReject) throws CantDenyConnectionActorAssetException {
         try {
 
-            if (actorAssetToReject.getType().getCode().equals(Actors.DAP_ASSET_ISSUER.getCode())) {
-                this.actorAssetIssuerManager.denyConnectionActorAssetIssuer(actorAssetUserLoggedInPublicKey, actorAssetToReject.getActorPublicKey());
+            if (actorAssetToReject.getType() == Actors.DAP_ASSET_ISSUER) {
+                issuerActorConnectionManager.denyConnection(actorAssetToReject.getActorPublicKey());
             } else {
-                if (actorAssetToReject.getType().getCode().equals(Actors.DAP_ASSET_USER.getCode())) {
+                if (actorAssetToReject.getType() == Actors.DAP_ASSET_USER) {
                     this.actorAssetUserManager.denyConnectionActorAssetUser(actorAssetUserLoggedInPublicKey, actorAssetToReject.getActorPublicKey());
                 }
             }
@@ -507,7 +512,7 @@ public class AssetUserCommunitySubAppModulePluginRoot extends AbstractPlugin imp
             List<DAPActor> dapActor;
             List<ActorAssetUser> actorAssetUsers = new ArrayList<>();
 
-            dapActor = this.actorAssetIssuerManager.getWaitingYourConnectionActorAssetIssuer(actorAssetUserLoggedInPublicKey, max, offset);
+            dapActor = issuerActorConnectionManager.getWaitingYourConnectionActorAssetIssuer(max, offset);
 
             if (dapActor.size() <= 0)
                 dapActor = this.actorAssetUserManager.getWaitingYourConnectionActorAssetUser(actorAssetUserLoggedInPublicKey, max, offset);
@@ -546,7 +551,7 @@ public class AssetUserCommunitySubAppModulePluginRoot extends AbstractPlugin imp
             List<DAPActor> dapActor;
             List<ActorAssetUser> actorAssetUsers = new ArrayList<>();
 
-            dapActor = this.actorAssetIssuerManager.getWaitingTheirConnectionActorAssetIssuer(actorAssetUserLoggedInPublicKey, max, offset);
+            dapActor = issuerActorConnectionManager.getWaitingTheirConnectionActorAssetIssuer(max, offset);
 
             if (dapActor.size() <= 0)
                 dapActor =  this.actorAssetUserManager.getWaitingTheirConnectionActorAssetUser(actorAssetUserLoggedInPublicKey, max, offset);
@@ -596,7 +601,7 @@ public class AssetUserCommunitySubAppModulePluginRoot extends AbstractPlugin imp
             int countActor;
 
             if (getActiveAssetUserIdentity() != null) {
-                countActor = actorAssetIssuerManager.getWaitingYourConnectionActorAssetIssuer(getActiveAssetUserIdentity().getPublicKey(), 100, 0).size();
+                countActor = issuerActorConnectionManager.getWaitingYourConnectionActorAssetIssuer(100, 0).size();
 
                 if (countActor <= 0) {
                     countActor = getWaitingYourConnectionActorAssetUser(getActiveAssetUserIdentity().getPublicKey(), 100, 0).size();
@@ -651,7 +656,7 @@ public class AssetUserCommunitySubAppModulePluginRoot extends AbstractPlugin imp
         int[] notifications = new int[5];
         try {
             if (getSelectedActorIdentity() != null) {
-                notifications[2] = actorAssetIssuerManager.getWaitingYourConnectionActorAssetIssuer(getSelectedActorIdentity().getPublicKey(), 100, 0).size();
+                notifications[2] = issuerActorConnectionManager.getWaitingYourConnectionActorAssetIssuer(100, 0).size();
 
                 if (notifications[2] <= 0) {
                     notifications[2] = actorAssetUserManager.getWaitingYourConnectionActorAssetUser(getSelectedActorIdentity().getPublicKey(), 99, 0).size();
