@@ -42,6 +42,12 @@ import com.bitdubai.fermat_ccp_api.layer.network_service.crypto_addresses.except
 import com.bitdubai.fermat_ccp_api.layer.network_service.crypto_addresses.exceptions.PendingRequestNotFoundException;
 import com.bitdubai.fermat_ccp_api.layer.network_service.crypto_addresses.interfaces.CryptoAddressRequest;
 import com.bitdubai.fermat_ccp_api.layer.network_service.crypto_addresses.interfaces.CryptoAddressesManager;
+import com.bitdubai.fermat_pip_api.layer.platform_service.error_manager.enums.UnexpectedPluginExceptionSeverity;
+import com.bitdubai.fermat_pip_api.layer.platform_service.error_manager.interfaces.ErrorManager;
+import com.bitdubai.fermat_pip_api.layer.platform_service.event_manager.interfaces.EventManager;
+import com.bitdubai.fermat_pip_api.layer.user.device_user.exceptions.CantGetLoggedInDeviceUserException;
+
+import org.fermat.fermat_dap_api.layer.actor_connection.asset_issuer.interfaces.AssetIssuerActorConnectionManager;
 import org.fermat.fermat_dap_api.layer.all_definition.DAPConstants;
 import org.fermat.fermat_dap_api.layer.all_definition.enums.DAPConnectionState;
 import org.fermat.fermat_dap_api.layer.all_definition.enums.EventType;
@@ -85,10 +91,6 @@ import org.fermat.fermat_dap_plugin.layer.actor.redeem.point.developer.version_1
 import org.fermat.fermat_dap_plugin.layer.actor.redeem.point.developer.version_1.exceptions.CantUpdateRedeemPointException;
 import org.fermat.fermat_dap_plugin.layer.actor.redeem.point.developer.version_1.structure.RedeemPointActorAddress;
 import org.fermat.fermat_dap_plugin.layer.actor.redeem.point.developer.version_1.structure.RedeemPointActorDao;
-import com.bitdubai.fermat_pip_api.layer.platform_service.error_manager.enums.UnexpectedPluginExceptionSeverity;
-import com.bitdubai.fermat_pip_api.layer.platform_service.error_manager.interfaces.ErrorManager;
-import com.bitdubai.fermat_pip_api.layer.platform_service.event_manager.interfaces.EventManager;
-import com.bitdubai.fermat_pip_api.layer.user.device_user.exceptions.CantGetLoggedInDeviceUserException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -136,6 +138,9 @@ public class RedeemPointActorPluginRoot extends AbstractPlugin implements
 
     @NeededPluginReference(platform = Platforms.DIGITAL_ASSET_PLATFORM, layer = Layers.ACTOR, plugin = Plugins.ASSET_ISSUER)
     private ActorAssetIssuerManager actorAssetIssuerManager;
+
+    @NeededPluginReference(platform = Platforms.DIGITAL_ASSET_PLATFORM, layer = Layers.ACTOR_CONNECTION, plugin = Plugins.ASSET_ISSUER)
+    private AssetIssuerActorConnectionManager issuerActorConnectionManager;
 
     private RedeemPointActorDao redeemPointActorDao;
 
@@ -754,9 +759,9 @@ public class RedeemPointActorPluginRoot extends AbstractPlugin implements
                 redeemPointActorDao.newExtendedPublicKeyRegistered(getActorAssetRedeemPoint().getActorPublicKey(), actorNotification.getActorSenderPublicKey());//dapActorSender.getActorPublicKey());
                 assetRedeemPointActorNetworkServiceManager.updateActorAssetRedeemPoint(redeemPointActorDao.getActorAssetRedeemPoint());
 //                actorAssetIssuerManager.updateExtendedPublicKey(dapActorSender.getActorPublicKey(), extendedPublicKey.toString());
-                actorAssetIssuerManager.updateExtendedPublicKey(actorNotification.getActorSenderPublicKey(), extendedPublicKey.toString());
+                issuerActorConnectionManager.updateExtendedPk(extendedPublicKey.toString(), actorNotification.getActorSenderPublicKey());
 //                actorAssetIssuerManager.updateIssuerRegisteredDAPConnectionState(dapActorSender.getActorPublicKey(), DAPConnectionState.CONNECTED_ONLINE);
-                actorAssetIssuerManager.updateIssuerRegisteredDAPConnectionState(actorNotification.getActorSenderPublicKey(), DAPConnectionState.CONNECTED_ONLINE);
+                issuerActorConnectionManager.updateConnectionState(actorNotification.getActorSenderPublicKey(), DAPConnectionState.CONNECTED_ONLINE);
             } catch (CantInitializeWatchOnlyVaultException | CantInsertRecordException | CantGetAssetRedeemPointActorsException | CantUpdateActorAssetIssuerException | CantRegisterActorAssetRedeemPointException e) {
                 //handle this.
                 e.printStackTrace();
