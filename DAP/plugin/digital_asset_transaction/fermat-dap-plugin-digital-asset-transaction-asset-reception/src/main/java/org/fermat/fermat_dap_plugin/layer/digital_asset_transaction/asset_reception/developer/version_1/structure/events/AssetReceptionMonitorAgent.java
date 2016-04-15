@@ -20,12 +20,16 @@ import com.bitdubai.fermat_bch_api.layer.crypto_network.bitcoin.exceptions.CantG
 import com.bitdubai.fermat_bch_api.layer.crypto_network.bitcoin.interfaces.BitcoinNetworkManager;
 import com.bitdubai.fermat_bch_api.layer.crypto_router.incoming_crypto.IncomingCryptoManager;
 import com.bitdubai.fermat_bch_api.layer.definition.event_manager.enums.EventType;
+import com.bitdubai.fermat_pip_api.layer.platform_service.error_manager.DealsWithErrors;
+import com.bitdubai.fermat_pip_api.layer.platform_service.error_manager.enums.UnexpectedPluginExceptionSeverity;
+import com.bitdubai.fermat_pip_api.layer.platform_service.error_manager.interfaces.ErrorManager;
+
+import org.fermat.fermat_dap_api.layer.actor_connection.asset_issuer.interfaces.AssetIssuerActorConnectionManager;
 import org.fermat.fermat_dap_api.layer.all_definition.digital_asset.DigitalAssetMetadata;
 import org.fermat.fermat_dap_api.layer.all_definition.enums.DAPMessageSubject;
 import org.fermat.fermat_dap_api.layer.all_definition.enums.DAPTransactionType;
 import org.fermat.fermat_dap_api.layer.all_definition.enums.DistributionStatus;
 import org.fermat.fermat_dap_api.layer.all_definition.enums.ReceptionStatus;
-
 import org.fermat.fermat_dap_api.layer.all_definition.exceptions.DAPException;
 import org.fermat.fermat_dap_api.layer.all_definition.network_service_message.DAPMessage;
 import org.fermat.fermat_dap_api.layer.all_definition.network_service_message.content_message.AssetMetadataContentMessage;
@@ -59,9 +63,6 @@ import org.fermat.fermat_dap_api.layer.dap_wallet.common.exceptions.CantLoadWall
 import org.fermat.fermat_dap_plugin.layer.digital_asset_transaction.asset_reception.developer.version_1.exceptions.CantCheckAssetReceptionProgressException;
 import org.fermat.fermat_dap_plugin.layer.digital_asset_transaction.asset_reception.developer.version_1.structure.DigitalAssetReceptionVault;
 import org.fermat.fermat_dap_plugin.layer.digital_asset_transaction.asset_reception.developer.version_1.structure.database.AssetReceptionDao;
-import com.bitdubai.fermat_pip_api.layer.platform_service.error_manager.DealsWithErrors;
-import com.bitdubai.fermat_pip_api.layer.platform_service.error_manager.enums.UnexpectedPluginExceptionSeverity;
-import com.bitdubai.fermat_pip_api.layer.platform_service.error_manager.interfaces.ErrorManager;
 
 import java.util.List;
 import java.util.UUID;
@@ -85,6 +86,7 @@ public class AssetReceptionMonitorAgent implements Agent {
     private final ActorAssetRedeemPointManager redeemPointManager;
     private final IncomingCryptoManager incomingCryptoManager;
     private final TransactionProtocolManager<CryptoTransaction> protocolManager;
+    private final AssetIssuerActorConnectionManager issuerActorConnectionManager;
 
     public AssetReceptionMonitorAgent(PluginDatabaseSystem pluginDatabaseSystem,
                                       ErrorManager errorManager,
@@ -97,7 +99,8 @@ public class AssetReceptionMonitorAgent implements Agent {
                                       ActorAssetRedeemPointManager redeemPointManager,
                                       org.fermat.fermat_dap_plugin.layer.digital_asset_transaction.asset_reception.developer.version_1.structure.DigitalAssetReceptor digitalAssetReceptor,
                                       DigitalAssetReceptionVault digitalAssetReceptionVault,
-                                      IncomingCryptoManager incomingCryptoManager) {
+                                      IncomingCryptoManager incomingCryptoManager,
+                                      AssetIssuerActorConnectionManager issuerActorConnectionManager) {
         this.pluginDatabaseSystem = pluginDatabaseSystem;
         this.errorManager = errorManager;
         this.pluginId = pluginId;
@@ -112,6 +115,7 @@ public class AssetReceptionMonitorAgent implements Agent {
         this.digitalAssetReceptionVault.setActorAssetUserManager(actorAssetUserManager);
         this.incomingCryptoManager = incomingCryptoManager;
         this.protocolManager = incomingCryptoManager.getTransactionManager();
+        this.issuerActorConnectionManager = issuerActorConnectionManager;
     }
 
     @Override
@@ -193,7 +197,7 @@ public class AssetReceptionMonitorAgent implements Agent {
                         DigitalAssetMetadata digitalAssetMetadataReceived = content.getAssetMetadata();
                         String genesisTransaction = digitalAssetMetadataReceived.getGenesisTransaction();
                         //We store the sender of this message on its respective plugin
-                        ActorUtils.storeDAPActor(message.getActorSender(), actorAssetUserManager, redeemPointManager, assetIssuerManager);
+                        ActorUtils.storeDAPActor(message.getActorSender(), actorAssetUserManager, redeemPointManager, issuerActorConnectionManager);
                         //And now I am the last owner!
                         digitalAssetMetadataReceived.setLastOwner(actorAssetUserManager.getActorAssetUser());
                         if (assetReceptionDao.isGenesisTransactionRegistered(genesisTransaction)) {
