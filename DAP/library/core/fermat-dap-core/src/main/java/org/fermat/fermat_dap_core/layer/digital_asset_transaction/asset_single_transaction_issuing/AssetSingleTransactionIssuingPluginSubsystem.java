@@ -1,22 +1,23 @@
-package org.fermat.fermat_dap_core.layer.metadata_transaction.asset_outgoing;
+package org.fermat.fermat_dap_core.layer.digital_asset_transaction.asset_single_transaction_issuing;
 
 import com.bitdubai.fermat_api.layer.all_definition.common.system.utils.PluginReference;
 import com.bitdubai.fermat_api.layer.all_definition.enums.Plugins;
 import com.bitdubai.fermat_core_api.layer.all_definition.system.abstract_classes.AbstractPluginSubsystem;
 import com.bitdubai.fermat_core_api.layer.all_definition.system.exceptions.CantStartSubsystemException;
 
-import org.fermat.fermat_dap_plugin.layer.metadata_transaction.outgoing_asset_metadata.developer.DeveloperBitDubai;
+import org.fermat.fermat_dap_plugin.layer.digital_asset_transaction.asset_single_transaction_issuing.developer.DeveloperBitDubai;
+
 
 /**
- * Created by Víctor A. Mars M. (marsvicam@gmail.com) on 12/04/16.
+ * Created by Víctor A. Mars M. (marsvicam@gmail.com) on 8/02/16.
  */
-public class AssetOutgoingPluginSubsystem extends AbstractPluginSubsystem {
+public class AssetSingleTransactionIssuingPluginSubsystem extends AbstractPluginSubsystem {
 
     //VARIABLE DECLARATION
 
     //CONSTRUCTORS
-    public AssetOutgoingPluginSubsystem() {
-        super(new PluginReference(Plugins.ASSET_OUTGOING));
+    public AssetSingleTransactionIssuingPluginSubsystem() {
+        super(new PluginReference(Plugins.ASSET_SINGLE_TRANSACTION_ISSUING));
     }
 
     //PUBLIC METHODS
