@@ -237,7 +237,7 @@ public class FermatAppsManagerService extends Service implements com.bitdubai.fe
             if (getSubAppRuntimeMiddleware().getLastApp() != null)
                 getSubAppRuntimeMiddleware().getLastApp().clear();
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

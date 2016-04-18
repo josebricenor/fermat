@@ -353,7 +353,7 @@ public class WizardActivity extends FermatActivity
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         //super.onBackPressed();

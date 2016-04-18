@@ -47,16 +47,16 @@ public class SettingsSliderProvisoryData {
                     break;
             }
         } catch (CantGetSettingsException | SettingsNotFoundException e) {
-            appStatusRes =R.drawable.icon_alpha_hdpi;
+            appStatusRes = R.drawable.icon_alpha_hdpi;
             // e.printStackTrace();
         }
         
         
         SettingsItem settingsItemSettings = new SettingsItem(SettingsType.APP_STATUS,appStatusRes,"App Filter","Beta");
 
-        SettingsItem settingsItemRecents = new SettingsItem(SettingsType.RECENTS,R.drawable.recent_buttom_hdpi,"Recents","");
+        SettingsItem settingsItemRecents = new SettingsItem(SettingsType.RECENTS, R.drawable.recent_buttom_hdpi, "Recents", "");
 
-        SettingsItem settingsHelp = new SettingsItem(SettingsType.HELP,R.drawable.help_buttom_hdpi,"Help","");
+        SettingsItem settingsHelp = new SettingsItem(SettingsType.HELP, R.drawable.help_buttom_hdpi, "Help", "");
 
 
         list.add(settingsItemFermatNetwork);

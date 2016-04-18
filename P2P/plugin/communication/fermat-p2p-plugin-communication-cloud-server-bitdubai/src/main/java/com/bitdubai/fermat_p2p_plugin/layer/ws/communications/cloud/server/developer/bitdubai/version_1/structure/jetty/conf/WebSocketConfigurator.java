@@ -42,7 +42,7 @@ public class WebSocketConfigurator extends ServerEndpointConfig.Configurator{
         LOG.info("Headers Attributes:");
 
         for (String key : handshakeRequest.getHeaders().keySet()) {
-            LOG.info(key + " : "+handshakeRequest.getHeaders().get(key));
+            LOG.info(key + " : " + handshakeRequest.getHeaders().get(key));
         }
 
         if (handshakeRequest.getHeaders().containsKey(JsonAttNamesConstants.HEADER_ATT_NAME_TI)){
@@ -57,7 +57,7 @@ public class WebSocketConfigurator extends ServerEndpointConfig.Configurator{
              */
             serverEndpointConfig.getUserProperties().put(JsonAttNamesConstants.HEADER_ATT_NAME_TI, ti);
 
-        }else {
+        } else {
             LOG.warn(JsonAttNamesConstants.HEADER_ATT_NAME_TI + " No Found");
         }
 

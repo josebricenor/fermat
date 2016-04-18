@@ -145,22 +145,22 @@ public class WelcomeWizardFragment extends AbstractFermatFragment implements Vie
     public void onClick(View v) {
         int id = v.getId();
 
-        if(id==R.id.btn_got_it){
-            if(position==fragments.size()-1){
+        if (id == R.id.btn_got_it) {
+            if (position == fragments.size() - 1) {
                 saveSettings(!checkbox.isChecked());
-                if(checkbox.isChecked()){
+                if (checkbox.isChecked()) {
                     getRuntimeManager().changeStartActivity(Activities.CCP_DESKTOP.getCode());
                 }
                 home();
-            }else {
+            } else {
                 doNext();
 
             }
-        } else if(id==R.id.checkbox){
+        } else if (id == R.id.checkbox) {
         }
     }
 
-    private void saveSettings(boolean isHelpEnabled){
+    private void saveSettings(boolean isHelpEnabled) {
         settingsSettingsManager = appSession.getModuleManager().getSettingsManager();
 
         try {
@@ -172,7 +172,7 @@ public class WelcomeWizardFragment extends AbstractFermatFragment implements Vie
         }
         appManagerSettings.setIsPresentationHelpEnabled(isHelpEnabled);
         try {
-            settingsSettingsManager.persistSettings(appSession.getAppPublicKey(),appManagerSettings);
+            settingsSettingsManager.persistSettings(appSession.getAppPublicKey(), appManagerSettings);
         } catch (CantPersistSettingsException e1) {
             e1.printStackTrace();
         }

@@ -5,8 +5,6 @@ import android.location.LocationListener;
 import android.os.Bundle;
 import android.os.Looper;
 
-
-
 import com.bitdubai.fermat_api.layer.all_definition.location_system.DeviceLocation;
 import com.bitdubai.fermat_api.layer.osa_android.location_system.Location;
 import com.bitdubai.fermat_api.layer.osa_android.location_system.LocationManager;
@@ -75,7 +73,7 @@ public class DeviceLocationManager implements LocationManager, LocationListener 
                     deviceLocation = locationManager.getLastKnownLocation(android.location.LocationManager.GPS_PROVIDER);
                     if (deviceLocation != null) {
 
-                        location = new DeviceLocation(deviceLocation.getLatitude(),deviceLocation.getLongitude(),deviceLocation.getTime(),deviceLocation.getAltitude(), LocationSource.GPS);
+                        location = new DeviceLocation(deviceLocation.getLatitude(), deviceLocation.getLongitude(), deviceLocation.getTime(), deviceLocation.getAltitude(), LocationSource.GPS);
 
                     }
                     else{
@@ -102,7 +100,7 @@ public class DeviceLocationManager implements LocationManager, LocationListener 
                         deviceLocation = locationManager.getLastKnownLocation(android.location.LocationManager.NETWORK_PROVIDER);
                         if (deviceLocation != null) {
 
-                            location = new DeviceLocation(deviceLocation.getLatitude(),deviceLocation.getLongitude(),deviceLocation.getTime(),deviceLocation.getAltitude(), LocationSource.NETWORK);
+                            location = new DeviceLocation(deviceLocation.getLatitude(), deviceLocation.getLongitude(), deviceLocation.getTime(), deviceLocation.getAltitude(), LocationSource.NETWORK);
 
                         }
                         else{

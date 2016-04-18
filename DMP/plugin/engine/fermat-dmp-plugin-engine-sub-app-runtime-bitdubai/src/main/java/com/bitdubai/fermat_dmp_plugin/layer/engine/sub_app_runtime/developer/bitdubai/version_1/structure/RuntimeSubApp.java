@@ -46,7 +46,7 @@ public class RuntimeSubApp implements SubApp {
     }
 
     public void addActivity (Activity activity){
-        if(actualActivityStart==null){
+        if (actualActivityStart == null) {
             actualActivityStart = activity.getType().getCode();
         }
         activities.put(activity.getType(), activity);
@@ -94,7 +94,7 @@ public class RuntimeSubApp implements SubApp {
 
     @Override
     public Activity getStartActivity() throws IllegalAccessException {
-        if(!activities.isEmpty())
+        if (!activities.isEmpty())
             try {
                 return activities.get(Activities.getValueFromString(actualActivityStart));
             } catch (InvalidParameterException e) {
@@ -113,7 +113,7 @@ public class RuntimeSubApp implements SubApp {
 
     @Override
     public void changeActualStartActivity(String activityCode) throws IllegalArgumentException, InvalidParameterException {
-       // if(activities.get(Activities.getValueFromString(activityCode))==null) throw new IllegalArgumentException("Activity code:"+activityCode+" is not in the activities list, add first and then change the start");
+        // if(activities.get(Activities.getValueFromString(activityCode))==null) throw new IllegalArgumentException("Activity code:"+activityCode+" is not in the activities list, add first and then change the start");
         this.actualActivityStart = activityCode;
     }
 

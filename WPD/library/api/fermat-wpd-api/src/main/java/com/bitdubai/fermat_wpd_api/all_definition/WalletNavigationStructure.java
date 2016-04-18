@@ -127,9 +127,10 @@ public class WalletNavigationStructure implements FermatWallet,Serializable{
     }
 
     @Override
-    public void changeActualStartActivity(String activityCode)throws IllegalArgumentException{
+    public void changeActualStartActivity(String activityCode) throws IllegalArgumentException {
         try {
-            if(activities.get(Activities.getValueFromString(activityCode))==null) throw new IllegalArgumentException();
+            if (activities.get(Activities.getValueFromString(activityCode)) == null)
+                throw new IllegalArgumentException();
         } catch (InvalidParameterException e) {
             throw new IllegalArgumentException(activityCode);
         }
@@ -172,7 +173,7 @@ public class WalletNavigationStructure implements FermatWallet,Serializable{
      * @param activity
      */
     public void addActivity(Activity activity) {
-        if(actualStart==null){
+        if (actualStart == null) {
             actualStart = activity.getType().getCode();
         }
         activities.put(activity.getType(), activity);
