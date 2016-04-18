@@ -81,6 +81,9 @@ project(':fermat-dap-plugin-digital-asset-transaction-asset-appropriation').proj
 include ':fermat-dap-plugin-digital-asset-transaction-issuer-appropriation'
 project(':fermat-dap-plugin-digital-asset-transaction-issuer-appropriation').projectDir = new File('DAP/plugin/digital_asset_transaction/fermat-dap-plugin-digital-asset-transaction-issuer-appropriation')
 
+include ':fermat-dap-plugin-digital-asset-transaction-asset-single-transaction-issuing'
+project(':fermat-dap-plugin-digital-asset-transaction-asset-single-transaction-issuing').projectDir = new File('DAP/plugin/digital_asset_transaction/fermat-dap-plugin-digital-asset-transaction-asset-single-transaction-issuing')
+
 //funds transactions
 
 include ':fermat-dap-plugin-funds-transaction-asset-seller'
@@ -103,6 +106,14 @@ project(':fermat-dap-plugin-identity-redeem-point').projectDir = new File('DAP/p
 include ':fermat-dap-plugin-metadata-digital-asset'
 project(':fermat-dap-plugin-metadata-digital-asset').projectDir = new File('DAP/plugin/metadata/fermat-dap-plugin-metadata-digital-asset')
 
+//metadata_transaction
+include ':fermat-dap-plugin-metadata-transaction-incoming-asset-metadata'
+project(':fermat-dap-plugin-metadata-transaction-incoming-asset-metadata').projectDir = new File('DAP/plugin/metadata_transaction/fermat-dap-plugin-metadata-transaction-incoming-asset-metadata')
+
+include ':fermat-dap-plugin-metadata-transaction-outgoing-asset-metadata'
+project(':fermat-dap-plugin-metadata-transaction-outgoing-asset-metadata').projectDir = new File('DAP/plugin/metadata_transaction/fermat-dap-plugin-metadata-transaction-outgoing-asset-metadata')
+
+
 // middleware
 include ':fermat-dap-plugin-middleware-asset-factory'
 project(':fermat-dap-plugin-middleware-asset-factory').projectDir = new File('DAP/plugin/middleware/fermat-dap-plugin-middleware-asset-factory')
@@ -114,6 +125,22 @@ project(':fermat-dap-plugin-network-service-asset-transmission').projectDir = ne
 //offer
 include ':fermat-dap-plugin-offer-asset-specific'
 project(':fermat-dap-plugin-offer-asset-specific').projectDir = new File('DAP/plugin/offer/fermat-dap-plugin-offer-asset-specific')
+
+//offer transaction
+
+include ':fermat-dap-plugin-offer-transaction-incoming-asset-offer'
+project(':fermat-dap-plugin-offer-transaction-incoming-asset-offer').projectDir = new File('DAP/plugin/offer_transaction/fermat-dap-plugin-offer-transaction-incoming-asset-offer')
+
+include ':fermat-dap-plugin-offer-transaction-outgoing-asset-offer'
+project(':fermat-dap-plugin-offer-transaction-outgoing-asset-offer').projectDir = new File('DAP/plugin/offer_transaction/fermat-dap-plugin-offer-transaction-outgoing-asset-offer')
+
+//statistic aggregator
+include ':fermat-dap-plugin-statistic-aggregator-asset-issuer'
+project(':fermat-dap-plugin-statistic-aggregator-asset-issuer').projectDir = new File('DAP/plugin/statistic_aggregator/fermat-dap-plugin-statistic-aggregator-asset-issuer')
+
+//statistic collector
+include ':fermat-dap-plugin-statistic-collector-asset-transfer'
+project(':fermat-dap-plugin-statistic-collector-asset-transfer').projectDir = new File('DAP/plugin/statistic_collector/fermat-dap-plugin-statistic-collector-asset-transfer')
 
 //Sup app module
 include ':fermat-dap-plugin-sub-app-module-asset-factory'
@@ -127,6 +154,14 @@ project(':fermat-dap-plugin-sub-app-module-asset-user-community').projectDir = n
 
 include ':fermat-dap-plugin-sub-app-module-redeem-point-community'
 project(':fermat-dap-plugin-sub-app-module-redeem-point-community').projectDir = new File('DAP/plugin/sub_app_module/fermat-dap-plugin-sub-app-module-redeem-point-community')
+
+//swap transaction
+
+include ':fermat-dap-plugin-swap-transaction-asset-for-bitcoin'
+project(':fermat-dap-plugin-swap-transaction-asset-for-bitcoin').projectDir = new File('DAP/plugin/swap_transaction/fermat-dap-plugin-swap-transaction-asset-for-bitcoin')
+
+include ':fermat-dap-plugin-swap-transaction-bitcoin-for-asset'
+project(':fermat-dap-plugin-swap-transaction-bitcoin-for-asset').projectDir = new File('DAP/plugin/swap_transaction/fermat-dap-plugin-swap-transaction-bitcoin-for-asset')
 
 //wallet module
 include ':fermat-dap-plugin-wallet-module-asset-issuer'

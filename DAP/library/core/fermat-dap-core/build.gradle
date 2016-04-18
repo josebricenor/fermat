@@ -42,6 +42,7 @@ dependencies {
     compile project(':fermat-dap-plugin-digital-asset-transaction-issuer-redemption')
     compile project(':fermat-dap-plugin-digital-asset-transaction-redeem-point-redemption')
     compile project(':fermat-dap-plugin-digital-asset-transaction-user-redemption')
+    compile project(':fermat-dap-plugin-digital-asset-transaction-asset-single-transaction-issuing')
 
     //FUNDS TRANSACTION
     compile project(':fermat-dap-plugin-funds-transaction-asset-seller')
@@ -55,6 +56,10 @@ dependencies {
     //METADATA
     compile project(':fermat-dap-plugin-metadata-digital-asset')
 
+    //METADATA TRANSACTION
+    compile project(':fermat-dap-plugin-metadata-transaction-incoming-asset-metadata')
+    compile project(':fermat-dap-plugin-metadata-transaction-outgoing-asset-metadata')
+
     //MIDDLEWARE
     compile project(':fermat-dap-plugin-middleware-asset-factory')
 
@@ -64,11 +69,26 @@ dependencies {
     //OFFER
     compile project(':fermat-dap-plugin-offer-asset-specific')
 
+    //OFFER TRANSACTION
+
+    compile project(':fermat-dap-plugin-offer-transaction-incoming-asset-offer')
+    compile project(':fermat-dap-plugin-offer-transaction-outgoing-asset-offer')
+
+    //STATISTIC AGGREGATOR
+    compile project(':fermat-dap-plugin-statistic-aggregator-asset-issuer')
+
+    //STATISTIC COLLECTOR
+    compile project(':fermat-dap-plugin-statistic-collector-asset-transfer')
+
     //SUB-APP MODULE
     compile project(':fermat-dap-plugin-sub-app-module-asset-factory')
     compile project(':fermat-dap-plugin-sub-app-module-asset-issuer-community')
     compile project(':fermat-dap-plugin-sub-app-module-asset-user-community')
     compile project(':fermat-dap-plugin-sub-app-module-redeem-point-community')
+
+    //SWAP TRANSACTION
+    compile project(':fermat-dap-plugin-swap-transaction-asset-for-bitcoin')
+    compile project(':fermat-dap-plugin-swap-transaction-bitcoin-for-asset')
 
     //WALLET
     compile project(':fermat-dap-plugin-wallet-assets-issuer-wallet')
