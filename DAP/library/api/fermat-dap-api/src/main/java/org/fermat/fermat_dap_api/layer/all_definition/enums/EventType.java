@@ -7,7 +7,8 @@ import com.bitdubai.fermat_api.layer.all_definition.events.interfaces.FermatEven
 import com.bitdubai.fermat_api.layer.all_definition.events.interfaces.FermatEventMonitor;
 import com.bitdubai.fermat_api.layer.all_definition.exceptions.InvalidParameterException;
 
-import org.fermat.fermat_dap_api.layer.all_definition.listeners.ActorAssetIssuerCompleteRegistrationNotificationEventListener;
+import org.fermat.fermat_dap_api.layer.all_definition.events.DigitalAssetMetadataSuccessfullySentEvent;
+import org.fermat.fermat_dap_api.layer.all_definition.listeners.DefaultDAPEventListener;
 
 /**
  * Created by Nerio on 27/10/15.
@@ -15,8 +16,8 @@ import org.fermat.fermat_dap_api.layer.all_definition.listeners.ActorAssetIssuer
 public enum EventType implements FermatEventEnum {
 
     ACTOR_ASSET_REQUEST_CONNECTIONS("AARC") {
-        public FermatEventListener getNewListener(FermatEventMonitor eventMonitor) {
-            return new org.fermat.fermat_dap_api.layer.all_definition.listeners.RequestActorConnectionNotificationEventListener(this, eventMonitor);
+        public FermatEventListener getNewListener(FermatEventMonitor fermatEventMonitor) {
+            return new DefaultDAPEventListener<>(this, fermatEventMonitor);
         }
 
         public FermatEvent getNewEvent() {
@@ -26,8 +27,8 @@ public enum EventType implements FermatEventEnum {
     },
 
     RECEIVE_NEW_DAP_MESSAGE("RNDAMN") {
-        public FermatEventListener getNewListener(FermatEventMonitor eventMonitor) {
-            return new org.fermat.fermat_dap_api.layer.all_definition.listeners.ReceivedNewDigitalAssetMetadataNotificationEventListener(this, eventMonitor);
+        public FermatEventListener getNewListener(FermatEventMonitor fermatEventMonitor) {
+            return new DefaultDAPEventListener<>(this, fermatEventMonitor);
         }
 
         public FermatEvent getNewEvent() {
@@ -38,7 +39,7 @@ public enum EventType implements FermatEventEnum {
     ACTOR_ASSET_NETWORK_SERVICE_NEW_NOTIFICATIONS("AANSNN") {
         @Override
         public FermatEventListener getNewListener(FermatEventMonitor fermatEventMonitor) {
-            return new org.fermat.fermat_dap_api.layer.all_definition.listeners.ActorAssetNetworkServicePendingsNotificationEventListener(this, fermatEventMonitor);
+            return new DefaultDAPEventListener<>(this, fermatEventMonitor);
         }
 
         @Override
@@ -49,7 +50,7 @@ public enum EventType implements FermatEventEnum {
 
     COMPLETE_REQUEST_LIST_ASSET_ISSUER_REGISTERED_NOTIFICATION("CL_RLAIRN") {
         public FermatEventListener getNewListener(FermatEventMonitor fermatEventMonitor) {
-            return new org.fermat.fermat_dap_api.layer.all_definition.listeners.ActorAssetUserRequestListRegisteredNetworksNotificationEventListener(this, fermatEventMonitor);
+            return new DefaultDAPEventListener<>(this, fermatEventMonitor);
         }
 
         public FermatEvent getNewEvent() {
@@ -59,7 +60,7 @@ public enum EventType implements FermatEventEnum {
 
     COMPLETE_REQUEST_LIST_ASSET_USER_REGISTERED_NOTIFICATION("CL_RLAURN") {
         public FermatEventListener getNewListener(FermatEventMonitor fermatEventMonitor) {
-            return new org.fermat.fermat_dap_api.layer.all_definition.listeners.ActorAssetUserRequestListRegisteredNetworksNotificationEventListener(this, fermatEventMonitor);
+            return new DefaultDAPEventListener<>(this, fermatEventMonitor);
         }
 
         public FermatEvent getNewEvent() {
@@ -69,7 +70,7 @@ public enum EventType implements FermatEventEnum {
 
     COMPLETE_REQUEST_LIST_ASSET_REDEEM_POINT_REGISTERED_NOTIFICATION("CL_RLARRN") {
         public FermatEventListener getNewListener(FermatEventMonitor fermatEventMonitor) {
-            return new org.fermat.fermat_dap_api.layer.all_definition.listeners.ActorAssetUserRequestListRegisteredNetworksNotificationEventListener(this, fermatEventMonitor);
+            return new DefaultDAPEventListener<>(this, fermatEventMonitor);
         }
 
         public FermatEvent getNewEvent() {
@@ -79,7 +80,7 @@ public enum EventType implements FermatEventEnum {
 
     COMPLETE_ASSET_ISSUER_REGISTRATION_NOTIFICATION("CL_CAIRN") {
         public FermatEventListener getNewListener(FermatEventMonitor fermatEventMonitor) {
-            return new ActorAssetIssuerCompleteRegistrationNotificationEventListener(this, fermatEventMonitor);
+            return new DefaultDAPEventListener<>(this, fermatEventMonitor);
         }
 
         public FermatEvent getNewEvent() {
@@ -89,7 +90,7 @@ public enum EventType implements FermatEventEnum {
 
     COMPLETE_ASSET_USER_REGISTRATION_NOTIFICATION("CL_CAURN") {
         public FermatEventListener getNewListener(FermatEventMonitor fermatEventMonitor) {
-            return new org.fermat.fermat_dap_api.layer.all_definition.listeners.ActorAssetUserCompleteRegistrationNotificationEventListener(this, fermatEventMonitor);
+            return new DefaultDAPEventListener<>(this, fermatEventMonitor);
         }
 
         public FermatEvent getNewEvent() {
@@ -99,7 +100,7 @@ public enum EventType implements FermatEventEnum {
 
     COMPLETE_ASSET_REDEEM_POINT_REGISTRATION_NOTIFICATION("CL_CARPRN") {
         public FermatEventListener getNewListener(FermatEventMonitor fermatEventMonitor) {
-            return new org.fermat.fermat_dap_api.layer.all_definition.listeners.ActorAssetRedeemPointCompleteRegistrationNotificationEventListener(this, fermatEventMonitor);
+            return new DefaultDAPEventListener<>(this, fermatEventMonitor);
         }
 
         public FermatEvent getNewEvent() {
@@ -110,7 +111,7 @@ public enum EventType implements FermatEventEnum {
     NEW_RECEIVE_MESSAGE_ACTOR("NEW_RECEIVE_MESSAGE") {
         @Override
         public FermatEventListener getNewListener(FermatEventMonitor fermatEventMonitor) {
-            return new org.fermat.fermat_dap_api.layer.all_definition.listeners.NewReceiveMessageActorNotificationEventListener(this, fermatEventMonitor);
+            return new DefaultDAPEventListener<>(this, fermatEventMonitor);
         }
 
         @Override
@@ -121,12 +122,23 @@ public enum EventType implements FermatEventEnum {
     NEW_RECEIVE_EXTENDED_KEY_ACTOR("EXTENDED_KEY") {
         @Override
         public FermatEventListener getNewListener(FermatEventMonitor fermatEventMonitor) {
-            return new org.fermat.fermat_dap_api.layer.all_definition.listeners.NewReceiveExtendedNotificationEventListener(this, fermatEventMonitor);
+            return new DefaultDAPEventListener<>(this, fermatEventMonitor);
         }
 
         @Override
         public FermatEvent getNewEvent() {
             return new org.fermat.fermat_dap_api.layer.all_definition.events.NewRequestActorNotificationEvent(this);
+        }
+    },
+    DIGITAL_ASSET_METADATA_SUCCESSFULLY_SENT("DAMSS") {
+        @Override
+        public FermatEventListener getNewListener(FermatEventMonitor fermatEventMonitor) {
+            return new DefaultDAPEventListener<>(this, fermatEventMonitor);
+        }
+
+        @Override
+        public FermatEvent getNewEvent() {
+            return new DigitalAssetMetadataSuccessfullySentEvent();
         }
     };
 
