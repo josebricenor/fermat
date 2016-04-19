@@ -24,7 +24,7 @@ public interface FermatEventListener<Z extends FermatEvent, T extends FermatEven
      * Throw the method <code>setEventHandler</code> you can set a handler for the listener.
      * @param fermatEventHandler handler for the event listener.
      */
-    void setEventHandler(FermatEventHandler fermatEventHandler);
+    void setEventHandler(FermatEventHandler<Z> fermatEventHandler);
 
     /**
      * Throw the method <code>getEventHandler</code>  you can get the handler assigned to the listener.
