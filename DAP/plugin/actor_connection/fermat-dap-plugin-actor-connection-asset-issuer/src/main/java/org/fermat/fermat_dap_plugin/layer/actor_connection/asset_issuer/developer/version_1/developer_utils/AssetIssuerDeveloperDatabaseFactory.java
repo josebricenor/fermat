@@ -11,12 +11,6 @@ import com.bitdubai.fermat_api.layer.osa_android.database_system.DatabaseRecord;
 import com.bitdubai.fermat_api.layer.osa_android.database_system.DatabaseTable;
 import com.bitdubai.fermat_api.layer.osa_android.database_system.DatabaseTableRecord;
 import com.bitdubai.fermat_api.layer.osa_android.database_system.PluginDatabaseSystem;
-import com.bitdubai.fermat_api.layer.osa_android.database_system.exceptions.CantCreateDatabaseException;
-import com.bitdubai.fermat_api.layer.osa_android.database_system.exceptions.CantOpenDatabaseException;
-import com.bitdubai.fermat_api.layer.osa_android.database_system.exceptions.DatabaseNotFoundException;
-
-import org.fermat.fermat_dap_api.layer.dap_transaction.asset_redemption.exceptions.CantInitializeAssetRedeemPointRedemptionTransactionDatabaseException;
-import org.fermat.fermat_dap_plugin.layer.actor_connection.asset_issuer.developer.version_1.structure.database.AssetIssuerDatabaseFactory;
 import org.fermat.fermat_dap_plugin.layer.actor_connection.asset_issuer.developer.version_1.structure.database.AssetIssuerDatabaseConstants;
 
 import java.util.ArrayList;
@@ -45,42 +39,7 @@ public class AssetIssuerDeveloperDatabaseFactory {
     //PUBLIC METHODS
 
 
-    public void initializeDatabase() throws CantInitializeAssetRedeemPointRedemptionTransactionDatabaseException {
-        try {
 
-             /*
-              * Open new database connection
-              */
-            pluginDatabaseSystem.openDatabase(pluginId, AssetIssuerDatabaseConstants.ASSET_ISSUER_ACTOR_CONNECTION_DATABASE);
-
-        } catch (CantOpenDatabaseException cantOpenDatabaseException) {
-
-             /*
-              * The database exists but cannot be open. I can not handle this situation.
-              */
-            throw new CantInitializeAssetRedeemPointRedemptionTransactionDatabaseException(cantOpenDatabaseException.getMessage());
-
-        } catch (DatabaseNotFoundException e) {
-
-             /*
-              * The database no exist may be the first time the plugin is running on this device,
-              * We need to create the new database
-              */
-            AssetIssuerDatabaseFactory assetAppropriationDatabaseFactory = new AssetIssuerDatabaseFactory(pluginDatabaseSystem, pluginId);
-
-            try {
-                  /*
-                   * We create the new database
-                   */
-                assetAppropriationDatabaseFactory.createDatabase();
-            } catch (CantCreateDatabaseException cantCreateDatabaseException) {
-                  /*
-                   * The database cannot be created. I can not handle this situation.
-                   */
-                throw new CantInitializeAssetRedeemPointRedemptionTransactionDatabaseException(cantCreateDatabaseException.getMessage());
-            }
-        }
-    }
 
     public static List<DeveloperDatabaseTable> getDatabaseTableList(DeveloperObjectFactory developerObjectFactory) {
         List<DeveloperDatabaseTable> tables = new ArrayList<>();

@@ -15,7 +15,7 @@ import com.bitdubai.fermat_api.layer.osa_android.database_system.exceptions.Cant
 import com.bitdubai.fermat_api.layer.osa_android.database_system.exceptions.CantOpenDatabaseException;
 import com.bitdubai.fermat_api.layer.osa_android.database_system.exceptions.DatabaseNotFoundException;
 
-import org.fermat.fermat_dap_api.layer.dap_transaction.asset_redemption.exceptions.CantInitializeAssetRedeemPointRedemptionTransactionDatabaseException;
+import org.fermat.fermat_dap_api.layer.dap_transaction.asset_redemption.exceptions.CantInitializeAssetRedemptionTransactionDatabaseException;
 import org.fermat.fermat_dap_plugin.layer.offer.asset_specific.developer.version_1.structure.database.AssetSpecificDatabaseConstants;
 import org.fermat.fermat_dap_plugin.layer.offer.asset_specific.developer.version_1.structure.database.AssetSpecificDatabaseFactory;
 
@@ -45,7 +45,7 @@ public class AssetSpecificDeveloperDatabaseFactory {
     //PUBLIC METHODS
 
 
-    public void initializeDatabase() throws CantInitializeAssetRedeemPointRedemptionTransactionDatabaseException {
+    public void initializeDatabase() throws CantInitializeAssetRedemptionTransactionDatabaseException {
         try {
 
              /*
@@ -58,7 +58,7 @@ public class AssetSpecificDeveloperDatabaseFactory {
              /*
               * The database exists but cannot be open. I can not handle this situation.
               */
-            throw new CantInitializeAssetRedeemPointRedemptionTransactionDatabaseException(cantOpenDatabaseException.getMessage());
+            throw new CantInitializeAssetRedemptionTransactionDatabaseException(cantOpenDatabaseException.getMessage());
 
         } catch (DatabaseNotFoundException e) {
 
@@ -77,7 +77,7 @@ public class AssetSpecificDeveloperDatabaseFactory {
                   /*
                    * The database cannot be created. I can not handle this situation.
                    */
-                throw new CantInitializeAssetRedeemPointRedemptionTransactionDatabaseException(cantCreateDatabaseException.getMessage());
+                throw new CantInitializeAssetRedemptionTransactionDatabaseException(cantCreateDatabaseException.getMessage());
             }
         }
     }

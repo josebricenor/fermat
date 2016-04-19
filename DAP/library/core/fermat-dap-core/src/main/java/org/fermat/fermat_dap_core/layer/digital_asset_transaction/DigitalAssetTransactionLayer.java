@@ -7,6 +7,7 @@ import com.bitdubai.fermat_core_api.layer.all_definition.system.exceptions.CantS
 import org.fermat.fermat_dap_core.layer.digital_asset_transaction.asset_appropriation.AssetAppropriationPluginSubsystem;
 import org.fermat.fermat_dap_core.layer.digital_asset_transaction.asset_distribution.AssetDistributionPluginSubsystem;
 import org.fermat.fermat_dap_core.layer.digital_asset_transaction.asset_issuing.AssetIssuingPluginSubsystem;
+import org.fermat.fermat_dap_core.layer.digital_asset_transaction.asset_single_transaction_issuing.AssetSingleTransactionIssuingPluginSubsystem;
 import org.fermat.fermat_dap_core.layer.digital_asset_transaction.asset_transfer.AssetTransferPluginSubsystem;
 import org.fermat.fermat_dap_core.layer.digital_asset_transaction.issuer_appropriation.IssuerAppropriationPluginSubsystem;
 import org.fermat.fermat_dap_core.layer.digital_asset_transaction.redeem_point_redemption.RedeemPointRedemptionPluginSubsystem;
@@ -31,11 +32,14 @@ public class DigitalAssetTransactionLayer extends AbstractLayer {
             registerPlugin(new AssetDistributionPluginSubsystem());
             registerPlugin(new AssetIssuingPluginSubsystem());
             registerPlugin(new org.fermat.fermat_dap_core.layer.digital_asset_transaction.asset_reception.AssetReceptionPluginSubsystem());
+            registerPlugin(new org.fermat.fermat_dap_core.layer.digital_asset_transaction.asset_break.AssetBreakPluginSubsystem());
+            registerPlugin(new org.fermat.fermat_dap_core.layer.digital_asset_transaction.multi_transaction_asset_issuing.MultiTransactionAssetIssuingPluginSubsystem());
             registerPlugin(new AssetTransferPluginSubsystem());
             registerPlugin(new IssuerAppropriationPluginSubsystem());
             registerPlugin(new org.fermat.fermat_dap_core.layer.digital_asset_transaction.issuer_redemption.IssuerRedemptionPluginSubsystem());
             registerPlugin(new RedeemPointRedemptionPluginSubsystem());
             registerPlugin(new org.fermat.fermat_dap_core.layer.digital_asset_transaction.user_redemption.UserRedemptionPluginSubsystem());
+            registerPlugin(new AssetSingleTransactionIssuingPluginSubsystem());
 
         } catch (CantRegisterPluginException e) {
 

@@ -9,7 +9,6 @@ import com.bitdubai.fermat_api.layer.dmp_engine.sub_app_runtime.enums.SubApps;
 import com.bitdubai.fermat_api.layer.interface_objects.FermatFolder;
 import com.bitdubai.sub_app.wallet_manager.structure.provisory_classes.InstalledSubApp;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -215,7 +214,7 @@ public class ProvisoryData {
 
 */
 
-        FermatFolder fermatFolder = new FermatFolder("Identities",lstIdentities,2);
+        FermatFolder fermatFolder = new FermatFolder("Profiles", lstIdentities, 2);
         Item identityFolder = new Item(fermatFolder);
         identityFolder.setIconResource(R.drawable.identities_xxhdpi);
         identityFolder.setPosition(2);
