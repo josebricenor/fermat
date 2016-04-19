@@ -11,6 +11,10 @@ project(':fermat-dap-api').projectDir = new File('DAP/library/api/fermat-dap-api
 include ':fermat-dap-core'
 project(':fermat-dap-core').projectDir = new File('DAP/library/core/fermat-dap-core')
 
+// agent
+include ':fermat-dap-plugin-agent-asset-miner'
+project(':fermat-dap-plugin-agent-asset-miner').projectDir = new File('DAP/plugin/agent/fermat-dap-plugin-agent-asset-miner')
+
 // actor
 include ':fermat-dap-plugin-actor-asset-issuer'
 project(':fermat-dap-plugin-actor-asset-issuer').projectDir = new File('DAP/plugin/actor/fermat-dap-plugin-actor-asset-issuer')
@@ -45,6 +49,13 @@ project(':fermat-dap-plugin-actor-network-service-redeem-point').projectDir = ne
 include ':fermat-dap-plugin-actor-network-service-asset-issuer'
 project(':fermat-dap-plugin-actor-network-service-asset-issuer').projectDir = new File('DAP/plugin/actor_network_service/fermat-dap-plugin-actor-network-service-asset-issuer')
 
+//business transaction
+include ':fermat-dap-plugin-business-transaction-asset-hold'
+project(':fermat-dap-plugin-business-transaction-asset-hold').projectDir = new File('DAP/plugin/business_transaction/fermat-dap-plugin-business-transaction-asset-hold')
+
+include ':fermat-dap-plugin-business-transaction-asset-unhold'
+project(':fermat-dap-plugin-business-transaction-asset-unhold').projectDir = new File('DAP/plugin/business_transaction/fermat-dap-plugin-business-transaction-asset-unhold')
+
 //Crypto Transaction
 include ':fermat-dap-plugin-crypto-transaction-asset-incoming'
 project(':fermat-dap-plugin-crypto-transaction-asset-incoming').projectDir = new File('DAP/plugin/crypto_transaction/fermat-dap-plugin-crypto-transaction-asset-incoming')
@@ -56,6 +67,9 @@ project(':fermat-dap-plugin-crypto-transaction-asset-outgoing').projectDir = new
 // digital asset transaction
 include ':fermat-dap-plugin-digital-asset-transaction-asset-issuing'
 project(':fermat-dap-plugin-digital-asset-transaction-asset-issuing').projectDir = new File('DAP/plugin/digital_asset_transaction/fermat-dap-plugin-digital-asset-transaction-asset-issuing')
+
+include ':fermat-dap-plugin-digital-asset-transaction-asset-break'
+project(':fermat-dap-plugin-digital-asset-transaction-asset-break').projectDir = new File('DAP/plugin/digital_asset_transaction/fermat-dap-plugin-digital-asset-transaction-asset-break')
 
 include ':fermat-dap-plugin-digital-asset-transaction-asset-distribution'
 project(':fermat-dap-plugin-digital-asset-transaction-asset-distribution').projectDir = new File('DAP/plugin/digital_asset_transaction/fermat-dap-plugin-digital-asset-transaction-asset-distribution')
@@ -71,6 +85,9 @@ project(':fermat-dap-plugin-digital-asset-transaction-issuer-redemption').projec
 
 include ':fermat-dap-plugin-digital-asset-transaction-user-redemption'
 project(':fermat-dap-plugin-digital-asset-transaction-user-redemption').projectDir = new File('DAP/plugin/digital_asset_transaction/fermat-dap-plugin-digital-asset-transaction-user-redemption')
+
+include ':fermat-dap-plugin-digital-asset-transaction-multi-transaction-asset-issuing'
+project(':fermat-dap-plugin-digital-asset-transaction-multi-transaction-asset-issuing').projectDir = new File('DAP/plugin/digital_asset_transaction/fermat-dap-plugin-digital-asset-transaction-multi-transaction-asset-issuing')
 
 include ':fermat-dap-plugin-digital-asset-transaction-redeem-point-redemption'
 project(':fermat-dap-plugin-digital-asset-transaction-redeem-point-redemption').projectDir = new File('DAP/plugin/digital_asset_transaction/fermat-dap-plugin-digital-asset-transaction-redeem-point-redemption')
@@ -127,6 +144,26 @@ project(':fermat-dap-plugin-sub-app-module-asset-user-community').projectDir = n
 
 include ':fermat-dap-plugin-sub-app-module-redeem-point-community'
 project(':fermat-dap-plugin-sub-app-module-redeem-point-community').projectDir = new File('DAP/plugin/sub_app_module/fermat-dap-plugin-sub-app-module-redeem-point-community')
+
+//user level business transaction
+include ':fermat-dap-plugin-user-level-business-transaction-asset-transfer'
+project(':fermat-dap-plugin-user-level-business-transaction-asset-transfer').projectDir = new File('DAP/plugin/user_level_business_transaction/fermat-dap-plugin-user-level-business-transaction-asset-transfer')
+
+include ':fermat-dap-plugin-user-level-business-transaction-asset-redemption'
+project(':fermat-dap-plugin-user-level-business-transaction-asset-redemption').projectDir = new File('DAP/plugin/user_level_business_transaction/fermat-dap-plugin-user-level-business-transaction-asset-redemption')
+
+include ':fermat-dap-plugin-user-level-business-transaction-asset-distribution'
+project(':fermat-dap-plugin-user-level-business-transaction-asset-distribution').projectDir = new File('DAP/plugin/user_level_business_transaction/fermat-dap-plugin-user-level-business-transaction-asset-distribution')
+
+include ':fermat-dap-plugin-user-level-business-transaction-asset-issuing'
+project(':fermat-dap-plugin-user-level-business-transaction-asset-issuing').projectDir = new File('DAP/plugin/user_level_business_transaction/fermat-dap-plugin-user-level-business-transaction-asset-issuing')
+
+include ':fermat-dap-plugin-user-level-business-transaction-asset-fixed-bitcoin-price-direct-private-sell'
+project(':fermat-dap-plugin-user-level-business-transaction-asset-fixed-bitcoin-price-direct-private-sell').projectDir = new File('DAP/plugin/user_level_business_transaction/fermat-dap-plugin-user-level-business-transaction-asset-fixed-bitcoin-price-direct-private-sell')
+
+include ':fermat-dap-plugin-user-level-business-transaction-asset-break'
+project(':fermat-dap-plugin-user-level-business-transaction-asset-break').projectDir = new File('DAP/plugin/user_level_business_transaction/fermat-dap-plugin-user-level-business-transaction-asset-break')
+
 
 //wallet module
 include ':fermat-dap-plugin-wallet-module-asset-issuer'

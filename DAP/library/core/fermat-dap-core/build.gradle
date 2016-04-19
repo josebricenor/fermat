@@ -13,6 +13,9 @@ dependencies {
     compile project(':fermat-api')
     compile project(':fermat-core-api')
 
+    //AGENT
+    compile project(':fermat-dap-plugin-agent-asset-miner')
+
     //ACTOR
     compile project(':fermat-dap-plugin-actor-asset-issuer')
     compile project(':fermat-dap-plugin-actor-asset-user')
@@ -28,18 +31,24 @@ dependencies {
     compile project(':fermat-dap-plugin-actor-network-service-asset-user')
     compile project(':fermat-dap-plugin-actor-network-service-redeem-point')
 
+    //BUSINESS TRANSACTION
+    compile project(':fermat-dap-plugin-business-transaction-asset-hold')
+    compile project(':fermat-dap-plugin-business-transaction-asset-unhold')
+
     //CRYPTO TRANSACTION
     compile project(':fermat-dap-plugin-crypto-transaction-asset-incoming')
     compile project(':fermat-dap-plugin-crypto-transaction-asset-outgoing')
 
     //DIGITAL ASSET TRANSACTION
     compile project(':fermat-dap-plugin-digital-asset-transaction-asset-appropriation')
+    compile project(':fermat-dap-plugin-digital-asset-transaction-asset-break')
     compile project(':fermat-dap-plugin-digital-asset-transaction-asset-distribution')
     compile project(':fermat-dap-plugin-digital-asset-transaction-asset-transfer')
     compile project(':fermat-dap-plugin-digital-asset-transaction-asset-issuing')
     compile project(':fermat-dap-plugin-digital-asset-transaction-asset-reception')
     compile project(':fermat-dap-plugin-digital-asset-transaction-issuer-appropriation')
     compile project(':fermat-dap-plugin-digital-asset-transaction-issuer-redemption')
+    compile project(':fermat-dap-plugin-digital-asset-transaction-multi-transaction-asset-issuing')
     compile project(':fermat-dap-plugin-digital-asset-transaction-redeem-point-redemption')
     compile project(':fermat-dap-plugin-digital-asset-transaction-user-redemption')
 
@@ -69,6 +78,14 @@ dependencies {
     compile project(':fermat-dap-plugin-sub-app-module-asset-issuer-community')
     compile project(':fermat-dap-plugin-sub-app-module-asset-user-community')
     compile project(':fermat-dap-plugin-sub-app-module-redeem-point-community')
+
+    //USER LEVEL BUSINESS TRANSACTION
+    compile project(':fermat-dap-plugin-user-level-business-transaction-asset-transfer')
+    compile project(':fermat-dap-plugin-user-level-business-transaction-asset-redemption')
+    compile project(':fermat-dap-plugin-user-level-business-transaction-asset-distribution')
+    compile project(':fermat-dap-plugin-user-level-business-transaction-asset-issuing')
+    compile project(':fermat-dap-plugin-user-level-business-transaction-asset-fixed-bitcoin-price-direct-private-sell')
+    compile project(':fermat-dap-plugin-user-level-business-transaction-asset-break')
 
     //WALLET
     compile project(':fermat-dap-plugin-wallet-assets-issuer-wallet')
