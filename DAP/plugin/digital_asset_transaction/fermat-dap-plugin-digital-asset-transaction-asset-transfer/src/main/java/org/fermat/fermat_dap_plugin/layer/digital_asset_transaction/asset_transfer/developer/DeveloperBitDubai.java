@@ -24,6 +24,7 @@ public class DeveloperBitDubai extends AbstractPluginDeveloper implements Plugin
         try {
 
             this.registerVersion(new AssetTransferDigitalAssetTransactionPluginRoot());
+            System.out.println("LFTL: REGISTRED DAT ASSET TRANSFER");
 
         } catch (CantRegisterVersionException e) {
 
