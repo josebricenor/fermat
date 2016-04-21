@@ -4,6 +4,7 @@ import com.bitdubai.fermat_api.CantStartPluginException;
 import com.bitdubai.fermat_api.FermatException;
 import com.bitdubai.fermat_api.layer.all_definition.common.system.abstract_classes.AbstractPlugin;
 import com.bitdubai.fermat_api.layer.all_definition.common.system.annotations.NeededAddonReference;
+import com.bitdubai.fermat_api.layer.all_definition.common.system.annotations.NeededPluginReference;
 import com.bitdubai.fermat_api.layer.all_definition.common.system.utils.PluginVersionReference;
 import com.bitdubai.fermat_api.layer.all_definition.developer.DatabaseManagerForDevelopers;
 import com.bitdubai.fermat_api.layer.all_definition.developer.DeveloperDatabase;
@@ -24,23 +25,36 @@ import com.bitdubai.fermat_pip_api.layer.platform_service.error_manager.enums.Un
 import com.bitdubai.fermat_pip_api.layer.platform_service.error_manager.interfaces.ErrorManager;
 import com.bitdubai.fermat_pip_api.layer.platform_service.event_manager.interfaces.EventManager;
 
+import org.fermat.fermat_dap_api.layer.all_definition.digital_asset.DigitalAssetMetadata;
+import org.fermat.fermat_dap_api.layer.all_definition.enums.MetadataTransactionStatus;
+import org.fermat.fermat_dap_api.layer.all_definition.events.DigitalAssetMetadataConfirmSentEvent;
+import org.fermat.fermat_dap_api.layer.all_definition.events.DigitalAssetMetadataSuccessfullySentEvent;
+import org.fermat.fermat_dap_api.layer.dap_actor.DAPActor;
+import org.fermat.fermat_dap_api.layer.dap_metadata_transaction.MetadataTransactionRecord;
+import org.fermat.fermat_dap_api.layer.dap_metadata_transaction.asset_outgoing.interfaces.AssetOutgoingMetadataTransactionManager;
+import org.fermat.fermat_dap_api.layer.dap_metadata_transaction.exceptions.CantStartMetadataTransactionException;
+import org.fermat.fermat_dap_api.layer.dap_metadata_transaction.exceptions.CantUpdateMetadataTransactionException;
+import org.fermat.fermat_dap_api.layer.dap_network_services.asset_transmission.interfaces.AssetTransmissionNetworkServiceManager;
 import org.fermat.fermat_dap_api.layer.dap_transaction.common.exceptions.CantDeliverDatabaseException;
+import org.fermat.fermat_dap_api.layer.dap_transaction.common.exceptions.CantSaveEventException;
 import org.fermat.fermat_dap_plugin.layer.metadata_transaction.outgoing_asset_metadata.developer.version_1.structure.database.OutgoingAssetMetadataDatabaseConstants;
 import org.fermat.fermat_dap_plugin.layer.metadata_transaction.outgoing_asset_metadata.developer.version_1.structure.database.OutgoingAssetMetadataDatabaseFactory;
 import org.fermat.fermat_dap_plugin.layer.metadata_transaction.outgoing_asset_metadata.developer.version_1.structure.events.OutgoingAssetMetadataRecorderService;
 import org.fermat.fermat_dap_plugin.layer.metadata_transaction.outgoing_asset_metadata.developer.version_1.developer_utils.OutgoingAssetMetadataDeveloperDatabaseFactory;
 import org.fermat.fermat_dap_plugin.layer.metadata_transaction.outgoing_asset_metadata.developer.version_1.structure.database.OutgoingAssetMetadataDAO;
 import org.fermat.fermat_dap_plugin.layer.metadata_transaction.outgoing_asset_metadata.developer.version_1.structure.events.OutgoingAssetMetadataMonitorAgent;
+import org.fermat.fermat_dap_plugin.layer.metadata_transaction.outgoing_asset_metadata.developer.version_1.structure.internal.MetadataTransactionRecordImpl;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 /**
- * Created by ?? (??@gmail.com) on ??/??/16.
+ * Created by Jose Briceño (josebricenor@gmail.com) on 19/04/16.
  */
 public class OutgoingAssetMetadataPluginRoot extends AbstractPlugin implements
+        AssetOutgoingMetadataTransactionManager,
         DatabaseManagerForDevelopers {
-
 
     //VARIABLE DECLARATION
     @NeededAddonReference(platform = Platforms.OPERATIVE_SYSTEM_API, layer = Layers.SYSTEM, addon = Addons.PLUGIN_DATABASE_SYSTEM)
@@ -51,6 +65,9 @@ public class OutgoingAssetMetadataPluginRoot extends AbstractPlugin implements
 
     @NeededAddonReference(platform = Platforms.PLUG_INS_PLATFORM, layer = Layers.PLATFORM_SERVICE, addon = Addons.EVENT_MANAGER)
     private EventManager eventManager;
+
+    @NeededPluginReference(platform = Platforms.DIGITAL_ASSET_PLATFORM, layer = Layers.NETWORK_SERVICE, plugin = Plugins.ASSET_TRANSMISSION)
+    AssetTransmissionNetworkServiceManager assetTransmissionNetworkServiceManager;
 
     private OutgoingAssetMetadataDAO dao;
     private OutgoingAssetMetadataMonitorAgent agent;
@@ -68,8 +85,8 @@ public class OutgoingAssetMetadataPluginRoot extends AbstractPlugin implements
         try {
             createDatabase();
             dao = new OutgoingAssetMetadataDAO(pluginId, pluginDatabaseSystem);
-            agent = new OutgoingAssetMetadataMonitorAgent(errorManager, dao);
-            recorderService = new OutgoingAssetMetadataRecorderService(eventManager, pluginId, dao);
+            agent = new OutgoingAssetMetadataMonitorAgent(errorManager, dao, assetTransmissionNetworkServiceManager,eventManager);
+            recorderService = new OutgoingAssetMetadataRecorderService(eventManager, pluginId, dao, this);
             super.start();
         } catch (Exception e) {
             throw new CantStartPluginException(FermatException.wrapException(e));
@@ -77,8 +94,59 @@ public class OutgoingAssetMetadataPluginRoot extends AbstractPlugin implements
     }
 
     @Override
+    public MetadataTransactionRecord sendMetadata(DAPActor actorFrom, DAPActor actorTo, DigitalAssetMetadata metadataToSend) throws CantStartMetadataTransactionException {
+
+        MetadataTransactionRecord metadataTransactionRecord = null;
+
+        try {
+             metadataTransactionRecord = dao.saveNewMetadataTransactionRecord(actorFrom, actorTo, metadataToSend);
+        } catch (CantSaveEventException e) {
+            e.printStackTrace();
+        }
+
+        return metadataTransactionRecord;
+    }
+
+    @Override
+    public void notifyReception(MetadataTransactionRecord record) throws CantUpdateMetadataTransactionException {
+        dao.confirmMetadataTransactionRecord(record);
+    }
+
+    @Override
+    public void cancelTransaction(MetadataTransactionRecord record) throws CantUpdateMetadataTransactionException {
+        dao.cancelMetadataTransactionRecord(record);
+    }
+
+    @Override
+    public MetadataTransactionRecord getRecord(UUID recordId) {
+        MetadataTransactionRecordImpl metadataTransactionRecord;
+        metadataTransactionRecord = (MetadataTransactionRecordImpl) dao.getMetadataTransactionRecordById(recordId);
+        return metadataTransactionRecord;
+    }
+
+    @Override
+    public MetadataTransactionRecord getLastTransaction(DigitalAssetMetadata assetMetadata) {
+        MetadataTransactionRecordImpl metadataTransactionRecord;
+        metadataTransactionRecord = (MetadataTransactionRecordImpl) dao.getLastMetadataTransactionRecordByDigitalAssetMetadata(assetMetadata);
+        return metadataTransactionRecord;
+    }
+
+    @Override
     public void stop() {
         super.stop();
+    }
+
+    /**
+    * Handle the incoming event, the confirm of the message reception.
+    *
+    * @param digitalAssetMetadataSuccessfullySentEvent the event to be handle
+    *
+    * */
+    public void handleEvent(DigitalAssetMetadataConfirmSentEvent digitalAssetMetadataSuccessfullySentEvent){
+        MetadataTransactionRecord metadataTransactionRecord = dao.getMetadataTransactionRecordById(digitalAssetMetadataSuccessfullySentEvent.getRecord().getRecordId());
+        if(metadataTransactionRecord.getStatus() != MetadataTransactionStatus.CANCELLED){
+            dao.updateReceiveMetadataTransactionRecord(digitalAssetMetadataSuccessfullySentEvent.getRecord());
+        }
     }
 
     //PRIVATE METHODS

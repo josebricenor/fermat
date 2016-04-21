@@ -13,7 +13,7 @@ import org.fermat.fermat_dap_plugin.layer.metadata_transaction.outgoing_asset_me
 
 
 /**
- * Created by ?? (??@gmail.com) on ??/??/16.
+ * Created by Jose Briceño (josebricenor@gmail.com) on 19/04/16.
  */
 public class DeveloperBitDubai extends AbstractPluginDeveloper implements PluginLicensor {
     //VARIABLE DECLARATION

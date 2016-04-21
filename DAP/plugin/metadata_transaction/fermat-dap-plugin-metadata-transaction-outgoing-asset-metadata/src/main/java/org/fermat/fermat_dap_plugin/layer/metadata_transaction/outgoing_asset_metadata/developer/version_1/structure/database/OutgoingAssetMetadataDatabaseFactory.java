@@ -14,7 +14,7 @@ import com.bitdubai.fermat_api.layer.osa_android.database_system.exceptions.Inva
 import java.util.UUID;
 
 /**
- * Created by ?? (??@gmail.com) on ??/??/16.
+ * Created by Jose Briceño (josebricenor@gmail.com) on 18/04/16.
  */
 public final class OutgoingAssetMetadataDatabaseFactory {
 
@@ -38,15 +38,22 @@ public final class OutgoingAssetMetadataDatabaseFactory {
             DatabaseTableFactory digitalAssetMetadataTable;
             DatabaseFactory databaseFactory = database.getDatabaseFactory();
 
-            digitalAssetMetadataTable = databaseFactory.newTableFactory(pluginId, OutgoingAssetMetadataDatabaseConstants.OUTGOING_ASSET_METADATA_TABLE);
-            digitalAssetMetadataTable.addColumn(OutgoingAssetMetadataDatabaseConstants.OUTGOING_ASSET_METADATA_COLUMN_NAME, DatabaseDataType.STRING, 100, Boolean.TRUE);
+            digitalAssetMetadataTable = databaseFactory.newTableFactory(pluginId, OutgoingAssetMetadataDatabaseConstants.OUTGOING_ASSET_METADATA_TABLE_NAME);
+            digitalAssetMetadataTable.addColumn(OutgoingAssetMetadataDatabaseConstants.OUTGOING_ASSET_METADATA_ID_COLUMN_NAME, DatabaseDataType.STRING, 100, Boolean.TRUE);
+            digitalAssetMetadataTable.addColumn(OutgoingAssetMetadataDatabaseConstants.OUTGOING_ASSET_METADATA_MESSAGE_ID_COLUMN_NAME, DatabaseDataType.STRING, 100, Boolean.TRUE);
+            digitalAssetMetadataTable.addColumn(OutgoingAssetMetadataDatabaseConstants.OUTGOING_ASSET_METADATA_MESSAGE_COLUMN_NAME, DatabaseDataType.STRING, 250, Boolean.TRUE);
+            digitalAssetMetadataTable.addColumn(OutgoingAssetMetadataDatabaseConstants.OUTGOING_ASSET_METADATA_ATTEMPTS_COLUMN_NAME, DatabaseDataType.INTEGER, 100, Boolean.TRUE);
+            digitalAssetMetadataTable.addColumn(OutgoingAssetMetadataDatabaseConstants.OUTGOING_ASSET_METADATA_STATUS_COLUMN_NAME, DatabaseDataType.STRING, 10, Boolean.TRUE);
+            digitalAssetMetadataTable.addColumn(OutgoingAssetMetadataDatabaseConstants.OUTGOING_ASSET_METADATA_ACTOR_TO_COLUMN_NAME, DatabaseDataType.STRING, 100, Boolean.TRUE);
+            digitalAssetMetadataTable.addColumn(OutgoingAssetMetadataDatabaseConstants.OUTGOING_ASSET_METADATA_ACTOR_FROM_COLUMN_NAME, DatabaseDataType.STRING, 100, Boolean.TRUE);
+            digitalAssetMetadataTable.addColumn(OutgoingAssetMetadataDatabaseConstants.OUTGOING_ASSET_METADATA_TIMESTAMP_COLUMN_NAME, DatabaseDataType.LONG_INTEGER, 100, Boolean.FALSE);
 
-            digitalAssetMetadataTable.addIndex(OutgoingAssetMetadataDatabaseConstants.OUTGOING_ASSET_METADATA_COLUMN_NAME);
+            digitalAssetMetadataTable.addIndex(OutgoingAssetMetadataDatabaseConstants.OUTGOING_ASSET_METADATA_ID_COLUMN_NAME);
             try {
                 //Create the table
                 databaseFactory.createTable(pluginId, digitalAssetMetadataTable);
             } catch (CantCreateTableException cantCreateTableException) {
-                throw new CantCreateDatabaseException(CantCreateDatabaseException.DEFAULT_MESSAGE, cantCreateTableException, "Creating " + OutgoingAssetMetadataDatabaseConstants.OUTGOING_ASSET_METADATA_TABLE + " table", "Exception not handled by the plugin, There is a problem and I cannot create the table.");
+                throw new CantCreateDatabaseException(CantCreateDatabaseException.DEFAULT_MESSAGE, cantCreateTableException, "Creating " + OutgoingAssetMetadataDatabaseConstants.OUTGOING_ASSET_METADATA_TABLE_NAME + " table", "Exception not handled by the plugin, There is a problem and I cannot create the table.");
             }
 
             DatabaseTableFactory eventsRecorderTable = databaseFactory.newTableFactory(pluginId, OutgoingAssetMetadataDatabaseConstants.OUTGOING_ASSET_METADATA_EVENTS_RECORDED_TABLE_NAME);
