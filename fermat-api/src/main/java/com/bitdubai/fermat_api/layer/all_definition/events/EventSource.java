@@ -45,6 +45,8 @@ public enum EventSource implements FermatEnum {
     INCOMING_EXTRA_USER                     ("IEU"),
     OUTGOING_INTRA_USER                     ("OIU"),
     INCOMING_INTRA_USER                     ("IIU"),
+    OUTGOING_METADATA_TRANSACTION           ("OMT"),
+    INCOMING_METADATA_TRANSACTION           ("IMT"),
     MIDDLEWARE_APP_RUNTIME_PLUGIN           ("MAR"),
     MIDDLEWARE_CHAT_MANAGER                 ("MWCM"),
     MIDDLEWARE_MONEY_REQUEST_PLUGIN         ("MMR"),
