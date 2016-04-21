@@ -15,7 +15,7 @@ import com.bitdubai.fermat_api.layer.osa_android.database_system.exceptions.Cant
 import com.bitdubai.fermat_api.layer.osa_android.database_system.exceptions.CantOpenDatabaseException;
 import com.bitdubai.fermat_api.layer.osa_android.database_system.exceptions.DatabaseNotFoundException;
 
-import org.fermat.fermat_dap_api.layer.dap_transaction.asset_redemption.exceptions.CantInitializeAssetRedeemPointRedemptionTransactionDatabaseException;
+import org.fermat.fermat_dap_api.layer.dap_transaction.asset_issuing.exceptions.CantInitializeAssetIssuingTransactionDatabaseException;
 import org.fermat.fermat_dap_plugin.layer.crypto_transaction.asset_outgoing.developer.version_1.structure.database.AssetOutgoingDatabaseConstants;
 import org.fermat.fermat_dap_plugin.layer.crypto_transaction.asset_outgoing.developer.version_1.structure.database.AssetOutgoingDatabaseFactory;
 
@@ -45,51 +45,14 @@ public class AssetOutgoingDeveloperDatabaseFactory {
     //PUBLIC METHODS
 
 
-    public void initializeDatabase() throws CantInitializeAssetRedeemPointRedemptionTransactionDatabaseException {
-        try {
-
-             /*
-              * Open new database connection
-              */
-            pluginDatabaseSystem.openDatabase(pluginId, AssetOutgoingDatabaseConstants.ASSET_OUTGOING_DATABASE);
-
-        } catch (CantOpenDatabaseException cantOpenDatabaseException) {
-
-             /*
-              * The database exists but cannot be open. I can not handle this situation.
-              */
-            throw new CantInitializeAssetRedeemPointRedemptionTransactionDatabaseException(cantOpenDatabaseException.getMessage());
-
-        } catch (DatabaseNotFoundException e) {
-
-             /*
-              * The database no exist may be the first time the plugin is running on this device,
-              * We need to create the new database
-              */
-            AssetOutgoingDatabaseFactory assetAppropriationDatabaseFactory = new AssetOutgoingDatabaseFactory(pluginDatabaseSystem, pluginId);
-
-            try {
-                  /*
-                   * We create the new database
-                   */
-                assetAppropriationDatabaseFactory.createDatabase();
-            } catch (CantCreateDatabaseException cantCreateDatabaseException) {
-                  /*
-                   * The database cannot be created. I can not handle this situation.
-                   */
-                throw new CantInitializeAssetRedeemPointRedemptionTransactionDatabaseException(cantCreateDatabaseException.getMessage());
-            }
-        }
-    }
-
     public static List<DeveloperDatabaseTable> getDatabaseTableList(DeveloperObjectFactory developerObjectFactory) {
         List<DeveloperDatabaseTable> tables = new ArrayList<>();
 
-        List<String> assetIncomingColumns = new ArrayList<>();
-        assetIncomingColumns.add(AssetOutgoingDatabaseConstants.ASSET_OUTGOING_ID_COLUMN_NAME);
+        List<String> assetOutgoingColumns = new ArrayList<>();
+        assetOutgoingColumns.add(AssetOutgoingDatabaseConstants.ASSET_OUTGOING_ID_COLUMN_NAME);
 
-        DeveloperDatabaseTable assetIncomingTable = developerObjectFactory.getNewDeveloperDatabaseTable(AssetOutgoingDatabaseConstants.ASSET_OUTGOING_TABLE, assetIncomingColumns);
-        tables.add(assetIncomingTable);
+        DeveloperDatabaseTable assetOutgoingTable = developerObjectFactory.getNewDeveloperDatabaseTable(AssetOutgoingDatabaseConstants.ASSET_OUTGOING_TABLE, assetOutgoingColumns);
+        tables.add(assetOutgoingTable);
 
         List<String> eventsRecordedColumns = new ArrayList<>();
         eventsRecordedColumns.add(AssetOutgoingDatabaseConstants.ASSET_OUTGOING_EVENTS_RECORDED_ID_COLUMN_NAME);

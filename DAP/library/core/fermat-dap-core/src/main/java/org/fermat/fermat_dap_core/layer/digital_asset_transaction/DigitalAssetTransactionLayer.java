@@ -32,6 +32,8 @@ public class DigitalAssetTransactionLayer extends AbstractLayer {
             registerPlugin(new AssetDistributionPluginSubsystem());
             registerPlugin(new AssetIssuingPluginSubsystem());
             registerPlugin(new org.fermat.fermat_dap_core.layer.digital_asset_transaction.asset_reception.AssetReceptionPluginSubsystem());
+            registerPlugin(new org.fermat.fermat_dap_core.layer.digital_asset_transaction.asset_break.AssetBreakPluginSubsystem());
+            registerPlugin(new org.fermat.fermat_dap_core.layer.digital_asset_transaction.multi_transaction_asset_issuing.MultiTransactionAssetIssuingPluginSubsystem());
             registerPlugin(new AssetTransferPluginSubsystem());
             registerPlugin(new IssuerAppropriationPluginSubsystem());
             registerPlugin(new org.fermat.fermat_dap_core.layer.digital_asset_transaction.issuer_redemption.IssuerRedemptionPluginSubsystem());

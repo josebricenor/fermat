@@ -15,7 +15,7 @@ import com.bitdubai.fermat_api.layer.osa_android.database_system.exceptions.Cant
 import com.bitdubai.fermat_api.layer.osa_android.database_system.exceptions.DatabaseNotFoundException;
 
 import com.bitdubai.fermat_api.layer.all_definition.util.Validate;
-import org.fermat.fermat_dap_api.layer.dap_transaction.asset_redemption.exceptions.CantInitializeAssetRedeemPointRedemptionTransactionDatabaseException;
+import org.fermat.fermat_dap_api.layer.dap_transaction.asset_redemption.exceptions.CantInitializeAssetRedemptionTransactionDatabaseException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,7 +43,7 @@ public class AssetBuyerDeveloperDatabaseFactory {
     //PUBLIC METHODS
 
 
-    public void initializeDatabase() throws CantInitializeAssetRedeemPointRedemptionTransactionDatabaseException {
+    public void initializeDatabase() throws CantInitializeAssetRedemptionTransactionDatabaseException {
         try {
 
              /*
@@ -56,7 +56,7 @@ public class AssetBuyerDeveloperDatabaseFactory {
              /*
               * The database exists but cannot be open. I can not handle this situation.
               */
-            throw new CantInitializeAssetRedeemPointRedemptionTransactionDatabaseException(cantOpenDatabaseException.getMessage());
+            throw new CantInitializeAssetRedemptionTransactionDatabaseException(cantOpenDatabaseException.getMessage());
 
         } catch (DatabaseNotFoundException e) {
 
@@ -75,7 +75,7 @@ public class AssetBuyerDeveloperDatabaseFactory {
                   /*
                    * The database cannot be created. I can not handle this situation.
                    */
-                throw new CantInitializeAssetRedeemPointRedemptionTransactionDatabaseException(cantCreateDatabaseException.getMessage());
+                throw new CantInitializeAssetRedemptionTransactionDatabaseException(cantCreateDatabaseException.getMessage());
             }
         }
     }
