@@ -7,6 +7,7 @@ import com.bitdubai.fermat_api.layer.all_definition.events.interfaces.FermatEven
 import com.bitdubai.fermat_api.layer.all_definition.events.interfaces.FermatEventMonitor;
 import com.bitdubai.fermat_api.layer.all_definition.exceptions.InvalidParameterException;
 
+import org.fermat.fermat_dap_api.layer.all_definition.events.DigitalAssetMetadataConfirmSentEvent;
 import org.fermat.fermat_dap_api.layer.all_definition.events.DigitalAssetMetadataSuccessfullySentEvent;
 import org.fermat.fermat_dap_api.layer.all_definition.listeners.DefaultDAPEventListener;
 
@@ -139,6 +140,17 @@ public enum EventType implements FermatEventEnum {
         @Override
         public FermatEvent getNewEvent() {
             return new DigitalAssetMetadataSuccessfullySentEvent();
+        }
+    },
+    DIGITAL_ASSET_METADATA_CONFIRM_SENT("DAMCS") {
+        @Override
+        public FermatEventListener getNewListener(FermatEventMonitor fermatEventMonitor) {
+            return new DefaultDAPEventListener<>(this, fermatEventMonitor);
+        }
+
+        @Override
+        public FermatEvent getNewEvent() {
+            return new DigitalAssetMetadataConfirmSentEvent();
         }
     };
 

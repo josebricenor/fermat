@@ -9,7 +9,11 @@ import com.bitdubai.fermat_api.layer.all_definition.exceptions.InvalidParameterE
 public enum MetadataTransactionStatus implements FermatEnum {
 
     //ENUM DECLARATION
-
+    PENDING("PENDING"),
+    SENT("SENT"),
+    RECEIVE("RECEIVE"),
+    CONFIRMED("CONFIRMED"),
+    CANCELLED("CANCELLED")
     ;
 
     //VARIABLE DECLARATION

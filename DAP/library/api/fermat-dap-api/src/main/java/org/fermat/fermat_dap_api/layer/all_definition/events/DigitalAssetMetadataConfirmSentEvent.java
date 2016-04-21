@@ -9,19 +9,19 @@ import org.fermat.fermat_dap_api.layer.dap_metadata_transaction.MetadataTransact
  * <p/>
  * Created by Víctor A. Mars M. (marsvicam@gmail.com) on 19/04/16.
  */
-public final class DigitalAssetMetadataSuccessfullySentEvent extends AbstractDAPEvent {
+public final class DigitalAssetMetadataConfirmSentEvent extends AbstractDAPEvent {
 
     //VARIABLE DECLARATION
     private MetadataTransactionRecord record;
 
     //CONSTRUCTORS
-    public DigitalAssetMetadataSuccessfullySentEvent(MetadataTransactionRecord record) {
-        super(EventType.DIGITAL_ASSET_METADATA_SUCCESSFULLY_SENT);
+    public DigitalAssetMetadataConfirmSentEvent(MetadataTransactionRecord record) {
+        super(EventType.DIGITAL_ASSET_METADATA_CONFIRM_SENT);
         this.record = record;
     }
 
-    public DigitalAssetMetadataSuccessfullySentEvent() {
-        super(EventType.DIGITAL_ASSET_METADATA_SUCCESSFULLY_SENT);
+    public DigitalAssetMetadataConfirmSentEvent() {
+        super(EventType.DIGITAL_ASSET_METADATA_CONFIRM_SENT);
     }
     //PUBLIC METHODS
 
