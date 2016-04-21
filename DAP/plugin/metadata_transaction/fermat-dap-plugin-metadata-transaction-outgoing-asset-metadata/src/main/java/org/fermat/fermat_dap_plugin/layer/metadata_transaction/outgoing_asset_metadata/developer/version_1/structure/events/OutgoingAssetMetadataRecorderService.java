@@ -3,14 +3,15 @@ package org.fermat.fermat_dap_plugin.layer.metadata_transaction.outgoing_asset_m
 import com.bitdubai.fermat_api.FermatException;
 import com.bitdubai.fermat_api.layer.all_definition.enums.ServiceStatus;
 import com.bitdubai.fermat_api.layer.all_definition.events.interfaces.FermatEvent;
-import com.bitdubai.fermat_api.layer.all_definition.events.interfaces.FermatEventHandler;
 import com.bitdubai.fermat_api.layer.all_definition.events.interfaces.FermatEventListener;
 import com.bitdubai.fermat_api.layer.all_definition.util.Validate;
 import com.bitdubai.fermat_pip_api.layer.platform_service.event_manager.interfaces.EventManager;
 
+import org.fermat.fermat_dap_api.layer.all_definition.enums.EventType;
 import org.fermat.fermat_dap_api.layer.dap_transaction.common.exceptions.CantSaveEventException;
 import org.fermat.fermat_dap_api.layer.dap_transaction.common.exceptions.CantStartServiceException;
 import org.fermat.fermat_dap_api.layer.dap_transaction.common.interfaces.AssetTransactionService;
+import org.fermat.fermat_dap_plugin.layer.metadata_transaction.outgoing_asset_metadata.developer.version_1.OutgoingAssetMetadataPluginRoot;
 import org.fermat.fermat_dap_plugin.layer.metadata_transaction.outgoing_asset_metadata.developer.version_1.structure.database.OutgoingAssetMetadataDAO;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Created by ?? (??@gmail.com) on ??/??/16.
+ * Created by Jose Briceño (josebricenor@gmail.com) on 18/04/16.
  */
 public class OutgoingAssetMetadataRecorderService implements AssetTransactionService {
 
@@ -33,6 +34,8 @@ public class OutgoingAssetMetadataRecorderService implements AssetTransactionSer
     private final UUID pluginId;
     private final OutgoingAssetMetadataDAO dao;
     private List<FermatEventListener> listenersAdded;
+    private OutgoingAssetMetadataPluginRoot outgoingAssetMetadataPluginRoot;
+
 
     {
         listenersAdded = new ArrayList<>();
@@ -40,10 +43,11 @@ public class OutgoingAssetMetadataRecorderService implements AssetTransactionSer
 
     //CONSTRUCTORS
 
-    public OutgoingAssetMetadataRecorderService(EventManager eventManager, UUID pluginId, OutgoingAssetMetadataDAO dao) {
+    public OutgoingAssetMetadataRecorderService(EventManager eventManager, UUID pluginId, OutgoingAssetMetadataDAO dao, OutgoingAssetMetadataPluginRoot outgoingAssetMetadataPluginRoot) {
         this.eventManager = eventManager;
         this.pluginId = pluginId;
         this.dao = dao;
+        this.outgoingAssetMetadataPluginRoot = outgoingAssetMetadataPluginRoot;
     }
 
     //PUBLIC METHODS
@@ -53,9 +57,14 @@ public class OutgoingAssetMetadataRecorderService implements AssetTransactionSer
         String context = "Plugin ID: " + pluginId + " Event Manager: " + eventManager;
         try {
             FermatEventListener fermatEventListener;
-            FermatEventHandler fermatEventHandler = new OutgoingAssetMetadataEventHandler(this);
+
+            fermatEventListener = eventManager.getNewListener(EventType.DIGITAL_ASSET_METADATA_CONFIRM_SENT);
+            fermatEventListener.setEventHandler(new OutgoingAssetMetadataMessageConfirmedEventHandler(this, outgoingAssetMetadataPluginRoot));
+            eventManager.addListener(fermatEventListener);
+            listenersAdded.add(fermatEventListener);
+
         } catch (Exception e) {
-            throw new CantStartServiceException(e, context, "An unexpected exception happened while trying to start the AssetAppropriationRecordeService.");
+            throw new CantStartServiceException(e, context, "An unexpected exception happened while trying to start the OutgoingAssetMetadataRecorderService.");
         }
         serviceStatus = ServiceStatus.STARTED;
     }
